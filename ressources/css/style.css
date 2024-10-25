@@ -1,0 +1,360 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,400,400i,700|Roboto+Slab:700');
+
+
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
+p, th, td, li{
+    font-size: 16px;
+}
+
+html, body {
+    margin: 0%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.background{
+    position: relative;
+    height:25vh;
+}
+
+.background_image{
+    border-top-left-radius: 15px; /* round image corners*/
+    border-top-right-radius: 15px; 
+    object-fit: cover; /* Zoom on the image and not stretch*/
+} 
+
+.title{
+    color:white;
+    position: absolute;
+    bottom: 5%;
+    left: 2%;
+}
+
+.linkers{
+    list-style-type: none;  /* Removes the bullet */
+    padding: 0;       
+    margin:0;
+    padding-left: 1%;
+    display:flex;
+    background-color: rgb(189, 189, 189);
+}
+
+.linkers > li{
+    display:inline-block;
+    margin:0;
+    padding:1%;
+}
+
+.linkers > li > a{
+    text-decoration: none;/*delete the line under the links */
+}
+
+.linkers > li > a:visited{
+    color: transparent; /* cancel color change when after visiting link */
+}
+
+.active {
+    background-color: white;
+}
+
+.linkers > li.active > a{
+    color:rgb(26, 165, 222);
+    font-weight:bold;
+}
+
+main{
+    flex: 1;
+    display: flex;
+}
+
+#articles {
+    flex: 1;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+#articles h2 {
+   padding-top: 4vh; 
+   border-bottom: 2px solid rgb(189, 189, 189);
+}
+
+.creator {
+    color: rgb(189, 189, 189);
+    text-align: right;
+}
+
+aside {
+    width: 18%;
+    float: right;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 2%;
+}
+
+aside h3{
+    background-color: rgb(26, 165, 222);
+    color: white;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-left: 7%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+aside ul{
+    margin-top: 0;
+    border: 1px solid rgb(224, 224, 224);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+aside p{
+    padding-left: 7%;
+}
+
+.aside_p_div{
+    border: 1px solid rgb(224, 224, 224);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+
+a{
+    color: rgb(26, 165, 222);
+    text-decoration: none;
+}
+
+footer{
+    background-color: rgb(189, 189, 189);
+    padding: 2%;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: relative;
+}
+
+footer > img{
+   float: right;
+}
+
+.logbook_table{
+    table-layout: auto;
+    width: 100%;
+    border-spacing: 0;
+    border: solid 1px lightgray;
+    border-radius: 15px;
+    margin-bottom: 5%;
+}
+
+.logbook_table th {
+    padding: 2%;
+    text-align: left;
+    border: solid 1px lightgray;
+    background-color: rgb(26, 165, 222);
+    color: white;
+    word-wrap: break-word;
+    word-break: keep-all; 
+    white-space: normal; 
+    hyphens: auto;
+    width: 15%;
+}
+
+.logbook_table td {
+    padding: 2%;
+    border: solid 1px lightgray;
+    word-wrap: break-word;
+    word-break: keep-all;
+    white-space: normal; 
+    hyphens: auto;
+    width: 15%;
+}
+
+.logbook_table th:nth-child(3),
+.logbook_table td:nth-child(3) {
+    width: 45%; 
+}
+
+.logbook_table th:nth-child(4),
+.logbook_table td:nth-child(4) {
+    width: 25%; 
+}
+
+.logbook_table th:first-child{
+    border-top-left-radius: 15px;
+}
+
+.logbook_table th:last-child{
+    border-top-right-radius: 15px;
+}
+
+.logbook_table tr:last-child td:first-child{
+    border-bottom-left-radius: 15px;
+}
+
+.logbook_table tr:last-child td:last-child{
+    border-bottom-right-radius: 15px;
+}
+
+#sketch{
+    max-width: 100%;
+}
+
+.menu-icon{
+    display: none;
+}
+
+.menu-toggle{
+    display: none;
+}
+
+
+#flow{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5%;
+    max-width: 100%;
+}
+
+.mockup_screens{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+
+figcaption{
+    margin-bottom: 3%;
+    text-align: center;
+    color: gray;
+}
+
+
+
+
+/* Tablets portrait mode*/
+@media screen and (min-width: 601px) and (max-width: 1000px) and (orientation: portrait) {
+    main{
+        flex-direction: column;
+    }
+
+    aside {
+        width: 40%;
+        margin: 2% auto;
+    }
+
+    .background_image{
+        border-radius: 0px;
+    }
+
+    footer{
+        border-radius: 0px;
+    }
+}
+
+/* Tablets landscape mode */
+@media screen and (min-width: 951px) and (max-width: 1350px) and (orientation: landscape) {
+    aside{
+        width: 20%;
+    }
+
+    .background_image{
+        border-radius: 0px;
+    }
+
+    footer{
+        border-radius: 0px;
+    }
+}
+
+
+
+/* Phones portrait mode*/
+@media screen and (max-width: 600px){
+
+    main{
+        margin-left: 10%;
+        margin-right: 10%;
+        flex-direction: column;
+    }
+
+    p, th, td, li, figcaption{
+        font-size: 12px;
+    }
+
+    .menu-icon {
+        display: block; 
+        cursor: pointer;
+        color: white;
+        padding: 10px;
+        background-color: rgb(189, 189, 189);
+        text-align: center;
+        font-size: 25px;
+    }
+
+    .linkers{
+        display: none;
+        flex-direction: column;
+    }
+
+    .linkers li {
+        text-align: center;
+        padding-top: 2%;
+        padding-bottom: 2%;
+    }
+
+    /* When checkbox is checked, show the menu */
+    .menu-toggle:checked + .menu-icon + .linkers {
+        display: flex;
+    }
+
+    aside{
+        width: 96%;
+        margin: 2% auto;
+    }
+
+    .background_image{
+        border-radius: 0px;
+    }
+
+    footer{
+        border-radius: 0px;
+    }
+
+    #logo{
+        width: 20%;
+    }
+}
+
+/* Phones landscape mode */
+@media screen and (max-width: 950px) and (orientation: landscape) {
+    main{
+        flex-direction: column;
+    }
+
+    aside{
+        width: 40%;
+        margin: 2% auto;
+    }
+
+    #logo{
+        width: 20%;
+    }
+
+    .background_image{
+        border-radius: 0px;
+    }
+
+    footer{
+        border-radius: 0px;
+    }
+
+  }

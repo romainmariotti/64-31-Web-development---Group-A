@@ -45,7 +45,7 @@ let CallMeteor = function(){
     x = Math.round(x);
     let y = -30;
     meteors_array.push({x: x, y: y});
-    setTimeout(CallMeteor, 500)//Change this value to change interval of meteors spawn
+    setTimeout(CallMeteor, 750)//Change this value to change interval of meteors spawn
 };
 
 

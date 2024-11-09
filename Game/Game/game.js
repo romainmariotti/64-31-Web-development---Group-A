@@ -5,6 +5,12 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 document.body.appendChild(canvas);
 
+
+
+let alive = true;
+
+
+
 //Background images
 function drawBackground(){
     const img = new Image();
@@ -25,30 +31,24 @@ function startGame(){
 
 
 
+// !!! Add condition to stop when dead !!!
+//Recursively displays the meteors at random position, and sets an interval between each meteor spawn.
 let CallMeteor = function(){
 
-    let i = 0;
+    let x = Math.random() * (canvas.width - 100);
+    let y = Math.random() * (canvas.height - 100);
+    x = Math.round(x);
+    y = Math.round(y);
 
-    while(i < 25){
-        let x = Math.random() * (canvas.width - 100);
-        let y = Math.random() * (canvas.height - 100);
-        x = Math.round(x);
-        y = Math.round(y);
+    RenderMeteor(x, y);
 
-        RenderMeteor(x, y);
-        i++;
-        console.log("Meteor ", i, " spawned -> ", x, " - ", y);
-    }
-
+    setTimeout(CallMeteor, 1000)
 
 };
 
 
 
-
-
-
-//Meteor
+//Draw the meteor at given coordinates
 let RenderMeteor = function (x, y) {
     let meteorImage = new Image();
     let imageLoaded = false;

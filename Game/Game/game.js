@@ -6,74 +6,63 @@ canvas.height = window.innerHeight;
 document.body.appendChild(canvas);
 
 
+const background_image = new Image();
+background_image.src = "../Game/Images/sky.png";
 
-let alive = true;
 
 
 
-//Background images
+
+//Draws the background image
 function drawBackground(){
-    const img = new Image();
-    img.src = "../Game/Images/sky.png";
-    img.onload = () => {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    }
+    ctx.drawImage(background_image, 0, 0, canvas.width, canvas.height);
 }
 
-//Start the game
-function startGame(){
+//Starts the game
+let startGame= function(){
     document.getElementById("start-screen").style.display = "none";
     drawBackground();
     CallMeteor();
+    animateMeteors();
 }
 
 
 
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Meteors
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+let meteors_array = [];//Array to manage multiple meteors at the same time
+const meteorImage = new Image();
+meteorImage.src = "../Game/Images/meteor.svg";
+
 
 // !!! Add condition to stop when dead !!!
-//Recursively displays the meteors at random position, and sets an interval between each meteor spawn.
+//Recursively called with set interval. Adds meteors to the array with random x coordinates.
 let CallMeteor = function(){
-
     let x = Math.random() * (canvas.width - 100);
-    let y = Math.random() * (canvas.height - 100);
     x = Math.round(x);
-    y = Math.round(y);
-
-    RenderMeteor(x, y);
-
-    setTimeout(CallMeteor, 1000)
-
+    let y = -30;
+    meteors_array.push({x: x, y: y});
+    setTimeout(CallMeteor, 500)//Change this value to change interval of meteors spawn
 };
 
 
+//Draws meteors, manages the gravity (by updating y coordinates) and deletes the meteors from array when they reach the bottom of the screen.
+let animateMeteors = function (){
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    drawBackground();
 
-//Draw the meteor at given coordinates
-let RenderMeteor = function (x, y) {
-    let meteorImage = new Image();
-    let imageLoaded = false;
+    meteors_array.forEach((meteor, index) => {
+        meteor.y = meteor.y + 5;//Change this value to change the speed of meteors
+        ctx.drawImage(meteorImage, meteor.x, meteor.y, 100, 100);
 
-    // Load the image and set the flag once loaded
-    meteorImage.onload = function() {
-        imageLoaded = true;
-        console.log('Meteor loaded successfully');
-    };
-
-    // Change the source to the SVG file
-    meteorImage.src = "../Game/Images/meteor.svg"; // Make sure this path is correct
-
-    let render = function () {
-        if (imageLoaded) {
-            const width = 100; // Set desired width
-            const height = 100;
-
-            ctx.drawImage(meteorImage, x, y, width, height); // Draw only if the image is loaded
+        if(meteor.y > canvas.height){
+            meteors_array.splice(index, 1);
         }
-        requestAnimationFrame(render); // Call render on the next frame
-    };
+    });
 
-    render();
+    requestAnimationFrame(animateMeteors)
 };
-
-
 

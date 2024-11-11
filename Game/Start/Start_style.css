@@ -1,24 +1,39 @@
 body{
     font-family: Arial, Helvetica, sans-serif;
-    color:black;
+    color:orangered;
+    margin: 0; /* Add margin reset to avoid unwanted spaces */
+    overflow: hidden; /* Prevent scrolling if content overflows */
 }
 
 #start-screen{
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50);
+    margin-top: auto;
+    margin-left: auto;
     text-align: center;
 }
 
-#start-screnn h1{
+#start-screen h1{
     font-size: 3em;
     margin: 0;
+    color: orangered;
 }
 
 #start-screen button{
     padding: 10px 20px;
     font-size: 1.2em;
-    margin-top: 20px;
+    margin-top: 10px;
     cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.background_image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
 }

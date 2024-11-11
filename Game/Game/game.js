@@ -35,7 +35,7 @@ let startGame= function(){
 
 let meteors_array = [];//Array to manage multiple meteors at the same time
 const meteorImage = new Image();
-meteorImage.src = "../Game/Images/meteor.svg";
+meteorImage.src = "../Game/Images/meteor.png";
 
 
 // !!! Add condition to stop when dead !!!

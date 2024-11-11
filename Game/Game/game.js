@@ -24,6 +24,7 @@ let startGame= function(){
     drawBackground();
     CallMeteor();
     animateMeteors();
+    inGameOptions();
 }
 
 
@@ -65,4 +66,19 @@ let animateMeteors = function (){
 
     requestAnimationFrame(animateMeteors)
 };
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Options menu
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+let inGameOptions = function(){
+    const button = document.createElement("button");
+    button.innerText = "☰"
+    button.style.position = "absolute";
+    button.style.top = "10px";
+    button.style.left = "10px";
+    document.body.appendChild(button);
+};
+
 

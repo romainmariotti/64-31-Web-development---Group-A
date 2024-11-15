@@ -130,7 +130,7 @@ function showPauseMenu() {
     const goBackMenuButton = document.createElement("button");
     goBackMenuButton.innerText = "Main menu";
     overlay.appendChild(goBackMenuButton);
-    //Ajouter onclick
+    //Add onclick
 
 
     //Button to quit the pause menu, and resume the game
@@ -140,14 +140,9 @@ function showPauseMenu() {
     quitPauseMenuButton.style.top = "10px";
     quitPauseMenuButton.style.left = "10px";
     quitPauseMenuButton.onclick = function(){
-        if(game_started === true){
-            paused = false;
-            hidePauseMenu();
-            animateMeteors(); // Restart the animation loop
-        }
-        else{
-            hidePauseMenu();
-        }
+        paused = false;
+        hidePauseMenu();
+        animateMeteors();
     };
 
     overlay.appendChild(quitPauseMenuButton);
@@ -195,10 +190,8 @@ function showOptionMenu(){
                 showPauseMenu();
             }
             menu.remove();
-
         }
     };
     optionMenu.appendChild(quitOptionMenuButton);
-
     document.body.appendChild(optionMenu);
 }

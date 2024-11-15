@@ -116,16 +116,24 @@ function showPauseMenu() {
     text.innerText = "Game Paused";
     overlay.appendChild(text);
 
-
+    //Button to reach the options from the main menu
     const optionButton = document.createElement("button");
     optionButton.innerText = "Options";
+    optionButton.onclick = function(){
+        overlay.remove();
+        showOptionMenu();
+    };
     overlay.appendChild(optionButton);
 
+
+    //Button to go back to the game menu while in game
     const goBackMenuButton = document.createElement("button");
     goBackMenuButton.innerText = "Main menu";
     overlay.appendChild(goBackMenuButton);
+    //Ajouter onclick
 
 
+    //Button to quit the pause menu, and resume the game
     const quitPauseMenuButton = document.createElement("button");
     quitPauseMenuButton.innerText = "X"
     quitPauseMenuButton.style.position = "absolute";
@@ -153,4 +161,44 @@ function hidePauseMenu() {
     }
 }
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Options menu
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+function showOptionMenu(){
+    const optionMenu = document.createElement("div");
+    optionMenu.id = "option-menu";
+    optionMenu.style.position = "fixed";
+    optionMenu.style.top = "0";
+    optionMenu.style.left = "0";
+    optionMenu.style.width = "100%";
+    optionMenu.style.height = "100%";
+    optionMenu.style.display = "flex";
+    optionMenu.style.alignItems = "center";
+    optionMenu.style.justifyContent = "center";
+    optionMenu.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+
+    const text = document.createElement("p");
+    text.innerText = "Options";
+    text.style.color = "white";
+    optionMenu.appendChild(text);
+
+    const quitOptionMenuButton = document.createElement("button");
+    quitOptionMenuButton.innerText = "X"
+    quitOptionMenuButton.style.position = "absolute";
+    quitOptionMenuButton.style.top = "10px";
+    quitOptionMenuButton.style.left = "10px";
+    quitOptionMenuButton.onclick = function(){
+        const menu = document.getElementById("option-menu");
+        if(menu){
+            if(paused === true){
+                showPauseMenu();
+            }
+            menu.remove();
+
+        }
+    };
+    optionMenu.appendChild(quitOptionMenuButton);
+
+    document.body.appendChild(optionMenu);
+}

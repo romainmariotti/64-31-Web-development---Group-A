@@ -125,8 +125,17 @@ function showPauseMenu() {
     };
     overlay.appendChild(optionButton);
 
+    //Button to display the rules
+    const rulesMenu = document.createElement("button");
+    rulesMenu.innerText = "Rules";
+    rulesMenu.onclick = function(){
+        overlay.remove();
+        showRulesMenu();
+    }
+    overlay.appendChild(rulesMenu);
 
-    //Button to go back to the game menu while in game
+
+    //Button to go back to the main menu while in game
     const goBackMenuButton = document.createElement("button");
     goBackMenuButton.innerText = "Main menu";
     overlay.appendChild(goBackMenuButton);
@@ -231,6 +240,9 @@ function showRulesMenu(){
     backButton.onclick = function () {
         const menu = document.getElementById("rules-screen");
         if(menu){
+            if(paused === true){
+                showPauseMenu();
+            }
             menu.remove();
         }
     }

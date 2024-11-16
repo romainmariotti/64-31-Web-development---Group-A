@@ -195,3 +195,45 @@ function showOptionMenu(){
     optionMenu.appendChild(quitOptionMenuButton);
     document.body.appendChild(optionMenu);
 }
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Rules menu
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+function showRulesMenu(){
+    const rulesScreen = document.createElement("div");
+    rulesScreen.id = "rules-screen";
+    rulesScreen.style.position = "absolute";
+    rulesScreen.style.top = "0";
+    rulesScreen.style.left = "0";
+    rulesScreen.style.width = "100vw";
+    rulesScreen.style.height = "100vh";
+    rulesScreen.style.display = "flex";
+    rulesScreen.style.flexDirection = "column";
+    rulesScreen.style.alignItems = "center";
+    rulesScreen.style.justifyContent = "center";
+    rulesScreen.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+    rulesScreen.style.color = "white";
+
+    // Add rules text
+    const rulesText = document.createElement("p");
+    rulesText.innerText = "Game Rules:\n1. Avoid obstacles.\n2. Shoot enemies.\n3. Collect power-ups.";
+    rulesText.style.textAlign = "center";
+    rulesScreen.appendChild(rulesText);
+
+    // Add Back button
+    const backButton = document.createElement("button");
+    backButton.innerText = "Back";
+    backButton.style.marginTop = "20px";
+    backButton.style.padding = "10px 20px";
+    backButton.style.fontSize = "1.2em";
+    backButton.style.cursor = "pointer";
+    backButton.onclick = function () {
+        const menu = document.getElementById("rules-screen");
+        if(menu){
+            menu.remove();
+        }
+    }
+    rulesScreen.appendChild(backButton);
+    document.body.appendChild(rulesScreen);
+}

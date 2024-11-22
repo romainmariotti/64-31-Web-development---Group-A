@@ -6,12 +6,13 @@ import { canvas, ctx } from './constant.js';
 const background_image = new Image();
 background_image.src = "../Game/Images/sky.png";
 
-export let game_started = false;
+let game_started = true;
 
 //Put these variables into object in order to change their value in other files
 export let gameState = {
     animationFrameID: null,
     paused: false,
+    game_started,
 };
 
 //Draws the background image

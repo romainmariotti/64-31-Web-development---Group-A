@@ -6,7 +6,6 @@ import { animateMeteors } from './meteors.js';
 //In game pause menu
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
 export let pauseButton = function(){
     const button = document.createElement("button");
     button.innerText = "☰"
@@ -66,7 +65,15 @@ function showPauseMenu() {
     const goBackMenuButton = document.createElement("button");
     goBackMenuButton.innerText = "Main menu";
     overlay.appendChild(goBackMenuButton);
-    //Add onclick
+    goBackMenuButton.onclick = function() {
+        cancelAnimationFrame(gameState.animationFrameID);
+
+        //Reset the variables
+        gameState.paused = false;
+        gameState.game_started = false;
+
+        window.location.href = './start.html';
+    }
 
 
     //Button to quit the pause menu, and resume the game

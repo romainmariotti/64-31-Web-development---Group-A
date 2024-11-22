@@ -1,4 +1,4 @@
-import { gameState, game_started, drawBackground } from './game.js';
+import { gameState, drawBackground } from './game.js';
 import { drawPlayer, jetActions, updateBullets } from './jet.js';
 import { canvas, ctx } from './constant.js';
 
@@ -28,14 +28,14 @@ export let animateMeteors = function (){
     drawBackground();
 
     //Calls the jet and its actions
-    if (game_started) {
+    if (gameState.game_started) {
         drawPlayer();
         jetActions();
         updateBullets();
     }
 
     meteors_array.forEach((meteor, index) => {
-        meteor.y = meteor.y + 5;//Change this value to change the speed of meteors
+        meteor.y = meteor.y + 3;//Change this value to change the speed of meteors
         ctx.drawImage(meteorImage, meteor.x, meteor.y, 100, 100);
 
         if(meteor.y > canvas.height){

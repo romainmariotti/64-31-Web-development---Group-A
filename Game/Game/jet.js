@@ -1,19 +1,20 @@
-import { canvas, ctx } from "./constant.js";
-import { gameState } from "./game.js";
+import { canvas, ctx } from './constant.js';
+
+
 
 // Configuration de l'avion
-export let player = {
+let player = {
   x: canvas.width / 2 - 250, // Position initiale centrée horizontalement
-  y: canvas.height - 400, // Ajuste pour positionner l'avion plus bas
-  width: 600, // Largeur (9x plus grand)
-  height: 500, // Hauteur (9x plus grand)
+  y: canvas.height - 400,   // Ajuste pour positionner l'avion plus bas
+  width: 600,               // Largeur (9x plus grand)
+  height: 500,              // Hauteur (9x plus grand)
   image: new Image(),
 };
 
 // Chargement de l'image de l'avion
 player.image.src = "../Game/Images/Jet/FA18transp.png";
 player.image.onload = function () {
-  console.log("Jet image loaded!");
+  console.log("Image de l'avion chargée !");
 };
 
 // Fonction pour dessiner l'avion
@@ -51,7 +52,7 @@ bulletImage.onload = function () {
   console.log("Image du projectile chargée !");
 };
 
-export let bullets = []; // Export the list of bullets for collision checks
+let bullets = [];
 
 let canShoot = true;
 
@@ -82,12 +83,7 @@ export function updateBullets() {
     ctx.fillRect(bullet.x, bullet.y + 10, bullet.width, bullet.height * 1.5);
 
     // Corps principal
-    const gradient = ctx.createLinearGradient(
-      bullet.x,
-      bullet.y,
-      bullet.x,
-      bullet.y + bullet.height
-    );
+    const gradient = ctx.createLinearGradient(bullet.x, bullet.y, bullet.x, bullet.y + bullet.height);
     gradient.addColorStop(0, "yellow");
     gradient.addColorStop(0.5, "orange");
     gradient.addColorStop(1, "red");
@@ -147,6 +143,8 @@ missileImage.onload = function () {
 //     ctx.restore();
 // }
 
+
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Managing user input for the jet (keyboard)
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -168,76 +166,16 @@ export function jetActions() {
   if (keys["ArrowLeft"] && player.x > -player.width / 2) {
     player.x -= 20; // Jet goes left
   }
-  if (keys["ArrowRight"] && player.x + player.width / 2 < canvas.width) {
+  if (keys["ArrowRight"] && player.x + player.width/2 < canvas.width) {
     player.x += 20; // Jet goes right
   }
   if (keys["ArrowUp"] && player.y > 0) {
     player.y -= 20; // Jet goes up
   }
-  if (keys["ArrowDown"] && player.y + player.height <= canvas.height) {
+  if (keys["ArrowDown"] && player.y + player.height <=canvas.height) {
     player.y += 20; // Jet goes down
   }
-  if (keys[" "]) {
-    // Space key to shoot
+  if (keys[" "]) { // Space key to shoot
     fireBullet();
   }
-}
-
-// Lebenspunkte des Jets
-export let playerLives = 3; // Use let to allow modification
-
-// Getter für die Lebenspunkte
-export function getPlayerLives() {
-  return playerLives;
-}
-
-// Setter für die Lebenspunkte (zum Reduzieren)
-export function reducePlayerLives() {
-  playerLives -= 1;
-  console.log(`Lives remaining: ${playerLives}`);
-  return playerLives; // Return updated lives
-}
-
-// Funktion zur Überprüfung der Kollision zwischen zwei Rechtecken
-function checkCollision(rect1, rect2) {
-  return (
-    rect1.x < rect2.x + rect2.width &&
-    rect1.x + rect1.width > rect2.x &&
-    rect1.y < rect2.y + rect2.height &&
-    rect1.y + rect1.height > rect2.y
-  );
-}
-
-// Neue Funktion zur Verwaltung der Lebenspunkte bei Kollision
-export function checkPlayerCollision(meteors) {
-  const playerHitbox = {
-    x: player.x,
-    y: player.y,
-    width: player.width,
-    height: player.height,
-  };
-
-  meteors.forEach((meteor, index) => {
-    const meteorHitbox = {
-      x: meteor.x,
-      y: meteor.y,
-      width: 100, // Breite des Meteoriten (entspricht der `drawImage`-Breite)
-      height: 100, // Höhe des Meteoriten
-    };
-
-    if (checkCollision(playerHitbox, meteorHitbox)) {
-      // Leben abziehen
-      playerLives -= 1;
-      console.log(`Lebenspunkte übrig: ${playerLives}`);
-
-      // Meteor entfernen
-      meteors.splice(index, 1);
-
-      // Überprüfen, ob das Spiel beendet werden soll
-      if (playerLives <= 0) {
-        console.log("Game Over!");
-        gameState.game_started = false; // Spiel stoppen
-      }
-    }
-  });
 }

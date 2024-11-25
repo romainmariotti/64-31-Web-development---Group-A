@@ -1,46 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Start Screen</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="Start_style.css" />
-    <style>
-      body {
-        overflow: hidden;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="start-screen">
-      <h1>Jet Fighter Game</h1>
-      <button id="start-button">Start Game</button>
-      <button id="options-button">Options</button>
-      <button id="rules-button">Rules</button>
-      <img
-        src="..\Game\Images\mesospehre.png"
-        class="background_image"
-        width="100%"
-        height="100%"
-      />
-    </div>
-    <script type="module">
-      import { startGame } from "../Game/game.js";
-      import { showOptionMenu, showRulesMenu } from "../Game/menus.js";
-      document
-        .getElementById("start-button")
-        .addEventListener("click", startGame);
-      document
-        .getElementById("options-button")
-        .addEventListener("click", showOptionMenu);
-      document
-        .getElementById("rules-button")
-        .addEventListener("click", showRulesMenu);
-    </script>
-  </body>
+<head>
+  <title>Start Screen</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="Start_style.css">
+  <style>
+    body {
+      overflow: hidden;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+<div id="start-screen">
+  <h1>Jet Fighter Game</h1>
+  <button id="start-button">Start Game</button>
+  <button id="options-button">Options</button>
+  <button id="rules-button">Rules</button>
+  <img src="\Game\Game\Images\mesospehre.png" class="background_image" width="100%" height="100%">
+</div>
+<script type="module">
+  import { startGame } from '../Game/game.js';
+  import { showOptionMenu, showRulesMenu } from '../Game/menus.js';
+  document.getElementById('start-button').addEventListener('click', startGame);
+  document.getElementById('options-button').addEventListener('click', showOptionMenu);
+  document.getElementById('rules-button').addEventListener('click', showRulesMenu);
+</script>
+</body>
 </html>

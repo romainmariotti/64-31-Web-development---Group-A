@@ -82,10 +82,10 @@ export function updateBullets() {
 
     // Corps principal
     const gradient = ctx.createLinearGradient(
-      bullet.x,
-      bullet.y,
-      bullet.x,
-      bullet.y + bullet.height
+        bullet.x,
+        bullet.y,
+        bullet.x,
+        bullet.y + bullet.height
     );
     gradient.addColorStop(0, "yellow");
     gradient.addColorStop(0.5, "orange");
@@ -150,7 +150,8 @@ missileImage.onload = function () {
 // Managing user input for the jet (keyboard)
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-let keys = {}; // Objet pour suivre les touches pressées
+let keys = {}; // New variable to track keyboard click state
+let mouseClick = false; // New variable to track mouse click state
 
 // Event listener to detect pressed keys
 window.addEventListener("keydown", (e) => {
@@ -161,6 +162,21 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => {
   keys[e.key] = false; // Enregistre la touche comme relâchée
 });
+
+// Add an event listener for mouse management
+window.addEventListener("mousedown", (event) => {
+  if (event.button === 0) { // Left mouse button
+    mouseClick = true;
+  }
+});
+
+window.addEventListener("mouseup", (event) => {
+  if (event.button === 0) { // Left mouse button
+    mouseClick = false;
+  }
+});
+
+
 
 // Jet actions
 export function jetActions() {
@@ -176,7 +192,7 @@ export function jetActions() {
   if (keys["ArrowDown"] && player.y + player.height <= canvas.height) {
     player.y += 20; // Jet goes down
   }
-  if (keys[" "]) {
+  if (keys[" "] || mouseClick) {
     // Space key to shoot
     fireBullet();
   }

@@ -1,20 +1,18 @@
-import { canvas, ctx } from './constant.js';
-
-
+import { canvas, ctx } from "./constant.js";
 
 // Configuration de l'avion
-let player = {
+export let player = {
   x: canvas.width / 2 - 250, // Position initiale centrée horizontalement
-  y: canvas.height - 400,   // Ajuste pour positionner l'avion plus bas
-  width: 600,               // Largeur (9x plus grand)
-  height: 500,              // Hauteur (9x plus grand)
+  y: canvas.height - 400, // Ajuste pour positionner l'avion plus bas
+  width: 600, // Largeur (9x plus grand)
+  height: 500, // Hauteur (9x plus grand)
   image: new Image(),
 };
 
 // Chargement de l'image de l'avion
 player.image.src = "../Game/Images/Jet/FA18transp.png";
 player.image.onload = function () {
-  console.log("Image de l'avion chargée !");
+  console.log("Aircraft image loaded !");
 };
 
 // Fonction pour dessiner l'avion
@@ -49,10 +47,10 @@ export function drawPlayer() {
 const bulletImage = new Image();
 bulletImage.src = "../Game/Images/Jet/ProjectileMitrailleuseTransp.png"; // Chemin vers ton image
 bulletImage.onload = function () {
-  console.log("Image du projectile chargée !");
+  console.log("Projectile image loaded !");
 };
 
-let bullets = [];
+export let bullets = [];
 
 let canShoot = true;
 
@@ -83,7 +81,12 @@ export function updateBullets() {
     ctx.fillRect(bullet.x, bullet.y + 10, bullet.width, bullet.height * 1.5);
 
     // Corps principal
-    const gradient = ctx.createLinearGradient(bullet.x, bullet.y, bullet.x, bullet.y + bullet.height);
+    const gradient = ctx.createLinearGradient(
+      bullet.x,
+      bullet.y,
+      bullet.x,
+      bullet.y + bullet.height
+    );
     gradient.addColorStop(0, "yellow");
     gradient.addColorStop(0.5, "orange");
     gradient.addColorStop(1, "red");
@@ -100,7 +103,7 @@ export function updateBullets() {
 const missileImage = new Image();
 missileImage.src = "../Game/Images/Jet/MissileTransp.png"; // Chemin vers votre image
 missileImage.onload = function () {
-  console.log("Image des missiles chargée !");
+  console.log("Missile image loaded !");
 };
 
 // Fonction pour dessiner les missiles sous les ailes
@@ -143,8 +146,6 @@ missileImage.onload = function () {
 //     ctx.restore();
 // }
 
-
-
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Managing user input for the jet (keyboard)
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -166,16 +167,17 @@ export function jetActions() {
   if (keys["ArrowLeft"] && player.x > -player.width / 2) {
     player.x -= 20; // Jet goes left
   }
-  if (keys["ArrowRight"] && player.x + player.width/2 < canvas.width) {
+  if (keys["ArrowRight"] && player.x + player.width / 2 < canvas.width) {
     player.x += 20; // Jet goes right
   }
   if (keys["ArrowUp"] && player.y > 0) {
     player.y -= 20; // Jet goes up
   }
-  if (keys["ArrowDown"] && player.y + player.height <=canvas.height) {
+  if (keys["ArrowDown"] && player.y + player.height <= canvas.height) {
     player.y += 20; // Jet goes down
   }
-  if (keys[" "]) { // Space key to shoot
+  if (keys[" "]) {
+    // Space key to shoot
     fireBullet();
   }
 }

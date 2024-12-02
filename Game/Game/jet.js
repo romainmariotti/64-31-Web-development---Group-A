@@ -56,19 +56,19 @@ let canShoot = true;
 
 function fireBullet() {
   if (canShoot) {
-    const noseX = player.x + player.width / 2 + 12; // Aligne avec le nez de l'avion
+    const noseX = player.x + player.width / 2 + 20; // Aligne avec le nez de l'avion
     const noseY = player.y + 100; // Aligne avec le point rouge
     bullets.push({
-      x: noseX - 5, // Décale légèrement pour le centrer
+      x: noseX - 1, // Décale légèrement pour le centrer
       y: noseY,
-      width: 10, // Largeur plus fine
+      width: 5, // Largeur plus fine
       height: 30, // Hauteur plus longue
     });
     console.log("Bullet fired from:", { x: noseX, y: noseY });
     canShoot = false;
     setTimeout(() => {
       canShoot = true; // Réautorise à tirer après 200ms
-    }, 200);
+    }, 100);
   }
 }
 
@@ -180,20 +180,28 @@ window.addEventListener("mouseup", (event) => {
 
 // Jet actions
 export function jetActions() {
-  if (keys["ArrowLeft"] && player.x > -player.width / 2) {
+  // Left movement (ArrowLeft or A)
+  if ((keys["ArrowLeft"] || keys["a"]) && player.x > -player.width / 2) {
     player.x -= 20; // Jet goes left
   }
-  if (keys["ArrowRight"] && player.x + player.width / 2 < canvas.width) {
+
+  // Right movement (ArrowRight or D)
+  if ((keys["ArrowRight"] || keys["d"]) && player.x + player.width / 2 < canvas.width) {
     player.x += 20; // Jet goes right
   }
-  if (keys["ArrowUp"] && player.y > 0) {
+
+  // Up movement (ArrowUp or W)
+  if ((keys["ArrowUp"] || keys["w"]) && player.y > 0) {
     player.y -= 20; // Jet goes up
   }
-  if (keys["ArrowDown"] && player.y + player.height <= canvas.height) {
+
+  // Down movement (ArrowDown or S)
+  if ((keys["ArrowDown"] || keys["s"]) && player.y + player.height <= canvas.height) {
     player.y += 20; // Jet goes down
   }
+
+  // Fire bullets (Space or Left Mouse Click)
   if (keys[" "] || mouseClick) {
-    // Space key to shoot
     fireBullet();
   }
 }

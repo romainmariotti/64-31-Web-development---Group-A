@@ -3,6 +3,7 @@ import { player } from "./jet.js";
 import { meteors_array } from "./meteors.js";
 import { bullets } from "./jet.js"; // Import bullets array from jet.js
 import { gameState } from "./game.js";
+import { addPoints } from "./score.js";
 
 // Player lives configuration
 let lives = 3; // Number of lives
@@ -91,6 +92,8 @@ export function checkProjectileCollisions() {
         console.log("Projectile hit detected!");
         console.log("Bullet Hitbox:", bulletHitbox);
         console.log("Meteor Hitbox:", meteorHitbox);
+        console.log("Adding points for collision!");
+        addPoints(100); // Punkte hinzufügen
         bullets.splice(bulletIndex, 1); // Remove the bullet
         meteors_array.splice(meteorIndex, 1); // Remove the meteor
       }

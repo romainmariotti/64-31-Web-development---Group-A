@@ -6,6 +6,7 @@ import {
   checkCollisions,
   checkProjectileCollisions,
 } from "./hitbox.js";
+import { drawScore } from "./score.js";
 
 export let meteors_array = []; //Array to manage multiple meteors at the same time
 const meteorImage = new Image();
@@ -34,6 +35,7 @@ export let animateMeteors = function () {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBackground();
   drawLives(); //Draw three hearts on the upper right.
+  drawScore(); // Draw the score on the canvas
 
   //Calls the jet and its actions
   if (gameState.game_started) {

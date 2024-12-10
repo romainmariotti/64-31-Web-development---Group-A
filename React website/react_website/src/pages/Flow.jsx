@@ -9,7 +9,7 @@ function FlowPage({ data }) {
 
   return (
     <div>
-      <h1>{flowData.title.rendered}</h1>
+      <h2>{flowData.title.rendered}</h2>
       <div dangerouslySetInnerHTML={{ __html: flowData.content.rendered }} />
     </div>
   );

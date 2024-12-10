@@ -9,7 +9,7 @@ function LogbookPage({ data }) {
 
   return (
     <div>
-      <h1>{logbookData.title.rendered}</h1>
+      <h2>{logbookData.title.rendered}</h2>
       <div dangerouslySetInnerHTML={{ __html: logbookData.content.rendered }} />
     </div>
   );

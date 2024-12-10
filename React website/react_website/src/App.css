@@ -1,38 +1,113 @@
-.App {
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+body h2 {
+  border-bottom: 2px solid rgb(189, 189, 189);
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+
+figcaption {
+  margin-bottom: 3%;
   text-align: center;
+  color: gray;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.linkers {
+  background-color: rgb(189, 189, 189);
+  list-style-type: none; /* remvove bullet points */
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin-left: -2%; /* cancel left padding from body selector */
+  margin-right: -2%; /* same but for right padding */
+  margin-bottom: 3%;
+}
+
+.linkers > li {
+  display: inline-block;
+  padding-right: 2%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+.linkers > li > a {
+  text-decoration: none; /* remove text decoration for link (underline) */
+  color: black;
+}
+
+.linkers > li > a:visited {
+  color: transparent; /* cancel color change when after visiting link */
+}
+
+aside {
+  width: 18%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 2%;
+  position: absolute;
+  top: 30%;
+  right: 0;
+}
+
+aside h3 {
+  background-color: rgb(26, 165, 222);
   color: white;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  padding-left: 7%;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
-.App-link {
-  color: #61dafb;
+aside ul {
+  margin-top: 0;
+  border: 1px solid rgb(224, 224, 224);
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+aside li {
+  padding: 2%;
+}
+
+.container img {
+  margin-left: 0;
+}
+
+.container {
+  width: 80%;
+}
+
+.background {
+  position: relative;
+  margin-left: -2%;
+  margin-right: -2%;
+  margin-bottom: -1%;
+}
+
+.background_image {
+  border-top-left-radius: 15px; /* round image corners*/
+  border-top-right-radius: 15px;
+  /* object-fit: cover; Zoom on the image and not stretch*/
+  width: 100%;
+  height: 25vh;
+}
+
+h1 {
+  position: absolute;
+  color: white;
+  bottom: 0;
+  margin-left: 2%;
 }

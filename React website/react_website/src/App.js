@@ -1,10 +1,13 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
-import MockupPage from "./pages/mockup"; // Import Logbook page
-import LogbookPage from "./pages/logbook";
-import SketchPage from "./pages/sketch";
-import DescriptionPage from "./pages/description";
-import FlowPage from "./pages/flow";
+import MockupPage from "./pages/Mockup"; // Import Logbook page
+import LogbookPage from "./pages/Logbook";
+import SketchPage from "./pages/Sketch";
+import IntroductionPage from "./pages/Introduction";
+import FlowPage from "./pages/Flow";
+import DetailedDescriptionPage from "./pages/DetailedDescription";
+import ResultPage from "./pages/Result";
+import LinksPage from "./pages/Links";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 export const jsonData = []; // Export empty array for now, will be updated after fetching data
@@ -39,9 +42,13 @@ function App() {
   return (
     <Router>
       <div>
-        <ul>
+        <div class="background">
+          <h1>HES-SO Vs - 64-31 - Web Development</h1>
+          <img src="background.jpg" class="background_image"></img>
+        </div>
+        <ul className="linkers">
           <li>
-            <Link to="/">Description</Link>
+            <Link to="/">Introduction</Link>
           </li>
           <li>
             <Link to="/sketch">Sketch</Link>
@@ -55,12 +62,22 @@ function App() {
           <li>
             <Link to="/logbook">Logbook</Link>
           </li>
+          <li>
+            <Link to="/detailed-description">Detailed description</Link>
+          </li>
+          <li>
+            <Link to="/result">Result</Link>
+          </li>
+          <li>
+            <Link to="/links">Links</Link>
+          </li>
         </ul>
 
-        <hr />
-
         <Routes>
-          <Route path="/" element={<DescriptionPage data={jsonData} />}></Route>
+          <Route
+            path="/"
+            element={<IntroductionPage data={jsonData} />}
+          ></Route>
           <Route
             path="/sketch"
             element={<SketchPage data={jsonData} />}
@@ -74,6 +91,15 @@ function App() {
             path="/logbook"
             element={<LogbookPage data={jsonData} />}
           ></Route>
+          <Route
+            path="/detailed-description"
+            element={<DetailedDescriptionPage data={jsonData} />}
+          ></Route>
+          <Route
+            path="/result"
+            element={<ResultPage data={jsonData} />}
+          ></Route>
+          <Route path="/links" element={<LinksPage data={jsonData} />}></Route>
         </Routes>
       </div>
     </Router>

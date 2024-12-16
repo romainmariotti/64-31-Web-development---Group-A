@@ -14,12 +14,16 @@ function startShootingSound() {
 // Jet (player) configuration
 
 export let player = {
-  x: canvas.width / 2 - 250, // Center the F18 horizontally
-  y: canvas.height - 400, // Position the F18 lower on the screen
-  width: 600,
-  height: 500,
-  image: new Image(), // Default F18 image
+
+  x: canvas.width / 2 - 187.5, // Position initiale centrée horizontalement
+  y: canvas.height - 300, // Ajuste pour positionner l'avion plus bas
+  width: 450, // Largeur (25% plus petit)
+  height: 375, // Hauteur (25% plus petit)
+  image: new Image(),
 };
+
+// Chargement de l'image de l'avion
+// ...existing code...
 
 player.image.src = "../Game/Images/Jet/FA18transp.png";
 
@@ -27,12 +31,15 @@ player.image.src = "../Game/Images/Jet/FA18transp.png";
 
 // Function to draw the player jet
 export function drawPlayer() {
+
   if (activeJet.image.complete) {
     ctx.drawImage(activeJet.image, activeJet.x, activeJet.y, activeJet.width, activeJet.height);
   } else {
     console.error("Jet image is not loaded yet.");
   }
+
 }
+// ...existing code...
 
 // -----------------------------------------------------------------------------
 // Bullets Configuration
@@ -72,10 +79,10 @@ export function updateBullets() {
 
     // Draw main bullet body or custom bullet image
     const gradient = ctx.createLinearGradient(
-        bullet.x,
-        bullet.y,
-        bullet.x,
-        bullet.y + bullet.height
+      bullet.x,
+      bullet.y,
+      bullet.x,
+      bullet.y + bullet.height
     );
     gradient.addColorStop(0, "yellow");
     gradient.addColorStop(0.5, "orange");
@@ -95,6 +102,7 @@ export function updateBullets() {
 let keys = {}; // Object to track pressed keys
 let mouseClick = false; // Track mouse click state
 
+// Event listener to detect pressed keys
 // Handle key press
 window.addEventListener("keydown", (e) => {
   keys[e.key] = true;
@@ -104,6 +112,7 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => {
   keys[e.key] = false;
 });
+
 
 
 // Handle mouse down (start shooting)
@@ -144,15 +153,20 @@ document.addEventListener("mouseup", (event) => {
 // -----------------------------------------------------------------------------
 // Jet Actions
 // -----------------------------------------------------------------------------
+
 export function jetActions() {
   // Move left (ArrowLeft or 'A')
   if ((keys["ArrowLeft"] || keys["a"]) && player.x > -player.width / 2) {
     activeJet.x -= 20;
   }
 
-  // Move right (ArrowRight or 'D')
-  if ((keys["ArrowRight"] || keys["d"]) && player.x + player.width / 2 < canvas.width) {
-    activeJet.x += 20;
+  // Right movement (ArrowRight or D)
+  if (
+    (keys["ArrowRight"] || keys["d"]) &&
+    player.x + player.width / 2 < canvas.width
+  ) {
+    player.x += 20; // Jet goes right
+
   }
 
   // Move up (ArrowUp or 'W')
@@ -160,9 +174,14 @@ export function jetActions() {
     activeJet.y -= 20;
   }
 
-  // Move down (ArrowDown or 'S')
-  if ((keys["ArrowDown"] || keys["s"]) && player.y + player.height <= canvas.height) {
-    activeJet.y += 20;
+
+  // Down movement (ArrowDown or S)
+  if (
+    (keys["ArrowDown"] || keys["s"]) &&
+    player.y + player.height <= canvas.height
+  ) {
+    player.y += 20; // Jet goes down
+
   }
 
   // Fire bullets (Space or left mouse click)

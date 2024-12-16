@@ -1,6 +1,40 @@
-import { CallMeteor, animateMeteors } from "./meteors.js";
-import { pauseButton } from "./menus.js";
-import { canvas, ctx } from "./constant.js";
+import { CallMeteor, animateMeteors } from './meteors.js';
+import { pauseButton } from './menus.js';
+import { canvas, ctx } from './constant.js';
+import { jetActions, updateBullets } from "./jet.js";
+import { activeJet,showJetSelectionMenu } from "./selectJet.js";
+import { xwingActions, updateXwingBullets } from "./xwing.js";
+
+function animateGame() {
+    if (!gameState.paused) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBackground();
+
+        // Player and bullets
+        if (activeJet) {
+            if (activeJet.image.src.includes("X-Wing")) {
+                xwingActions();
+                updateXwingBullets();
+            } else {
+                jetActions();
+                updateBullets();
+            }
+            ctx.drawImage(activeJet.image, activeJet.x, activeJet.y, activeJet.width, activeJet.height);
+        }
+
+        // Draw meteors, score, and hearts
+        animateMeteors();
+    }
+    requestAnimationFrame(animateGame);
+}
+
+
+
+let isShootingXwing = false;
+let xwingShootingInterval = null;
+
+const background_image = new Image();
+background_image.src = "../Game/Images/sky.png";
 
 let game_started = true;
 
@@ -10,6 +44,7 @@ export let gameState = {
   paused: false,
   game_started,
 };
+
 
 // Array of image paths
 const layerPaths = [
@@ -38,6 +73,12 @@ layerPaths.forEach((path, index) => {
     }
   };
 });
+
+export let preGameSelection = function () {
+    showJetSelectionMenu();
+}
+
+
 
 export function drawBackground() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);

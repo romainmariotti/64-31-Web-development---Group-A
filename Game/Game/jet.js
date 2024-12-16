@@ -1,76 +1,86 @@
 import { canvas, ctx } from "./constant.js";
-import { activeJet } from "./selectJet.js";
 
-
-const shootingSound = new Audio("../Game/Sound/Blaster.mp3");
-function startShootingSound() {
-  if (shootingSound.paused || shootingSound.ended) {
-    shootingSound.currentTime = 0; // Reset to the beginning
-    shootingSound.play().catch((error) =>
-        console.error("Error playing shooting sound:", error)
-    );
-  }
-}
-// Jet (player) configuration
-
+// Configuration de l'avion
 export let player = {
-  x: canvas.width / 2 - 250, // Center the F18 horizontally
-  y: canvas.height - 400, // Position the F18 lower on the screen
-  width: 600,
-  height: 500,
-  image: new Image(), // Default F18 image
+  x: canvas.width / 2 - 250, // Position initiale centrée horizontalement
+  y: canvas.height - 400, // Ajuste pour positionner l'avion plus bas
+  width: 600, // Largeur (9x plus grand)
+  height: 500, // Hauteur (9x plus grand)
+  image: new Image(),
 };
 
+// Chargement de l'image de l'avion
 player.image.src = "../Game/Images/Jet/FA18transp.png";
+player.image.onload = function () {
+  console.log("Aircraft image loaded !");
+};
 
-
-
-// Function to draw the player jet
+// Fonction pour dessiner l'avion
 export function drawPlayer() {
-  if (activeJet.image.complete) {
-    ctx.drawImage(activeJet.image, activeJet.x, activeJet.y, activeJet.width, activeJet.height);
-  } else {
-    console.error("Jet image is not loaded yet.");
-  }
+  ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
+
+  // Positions des missiles (attachées aux ailes)
+  const missileLeftX = player.x + player.width / 4 - 10; // Position horizontale pour le missile gauche
+  const missileLeftX2 = player.x + player.width / 4 - 10; // Position horizontale pour le missile gauche
+  const missileRightX = player.x + (3 * player.width) / 4 - 10; // Position horizontale pour le missile droit
+  const missileRightX2 = player.x + (3 * player.width) / 4 - 10; // Position horizontale pour le missile droit
+  const missileY = player.y + player.height - 200; // Position verticale pour les deux missiles
+
+  // Dessin des missiles
+  ctx.drawImage(missileImage, missileLeftX, missileY, 50, 150); // Missile gauche
+  ctx.drawImage(missileImage, missileRightX, missileY, 50, 150); // Missile droit
+  ctx.drawImage(missileImage, missileLeftX2, missileY, 50, 150); // Missile gauche
+  ctx.drawImage(missileImage, missileRightX2, missileY, 50, 150); // Missile droit
+
+  // Ajout du point rouge pour debug (nez de l'avion)
+  //  const noseX = player.x + player.width / 2 + 28;
+  //  const noseY = player.y + 180;
+  //  ctx.fillStyle = "red";
+  // ctx.beginPath();
+  //ctx.arc(noseX, noseY, 5, 0, Math.PI * 2);
+  // ctx.fill();
 }
 
-// -----------------------------------------------------------------------------
-// Bullets Configuration
-// -----------------------------------------------------------------------------
-export let bullets = []; // Array to store active bullets
-let isShooting = false; // Tracks if the player is holding down the mouse button
-let shootingInterval = null; // Interval for continuous shooting
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Bullets
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+const bulletImage = new Image();
+bulletImage.src = "../Game/Images/Jet/ProjectileMitrailleuseTransp.png"; // Chemin vers ton image
+bulletImage.onload = function () {
+  console.log("Projectile image loaded !");
+};
 
-// Function to stop the shooting sound
-function stopShootingSound() {
-  if (!shootingSound.paused) {
-    shootingSound.pause();
-    shootingSound.currentTime = 0; // Reset the sound
-  }
-}
+export let bullets = [];
 
-// Fire a bullet
+let canShoot = true;
+
 function fireBullet() {
-  const noseX = activeJet.x + activeJet.width / 2 + 20; // Position of the bullet
-  const noseY = activeJet.y + 100;
-
-  bullets.push({ x: noseX - 1, y: noseY, width: 5, height: 30 });
-  console.log("Bullet fired from:", { x: noseX, y: noseY });
-
-  startShootingSound(); // Play shooting sound
-
+  if (canShoot) {
+    const noseX = player.x + player.width / 2 + 20; // Aligne avec le nez de l'avion
+    const noseY = player.y + 100; // Aligne avec le point rouge
+    bullets.push({
+      x: noseX - 1, // Décale légèrement pour le centrer
+      y: noseY,
+      width: 5, // Largeur plus fine
+      height: 30, // Hauteur plus longue
+    });
+    console.log("Bullet fired from:", { x: noseX, y: noseY });
+    canShoot = false;
+    setTimeout(() => {
+      canShoot = true; // Réautorise à tirer après 200ms
+    }, 100);
+  }
 }
 
-// Update and render bullets
 export function updateBullets() {
   bullets.forEach((bullet, index) => {
-    bullet.y -= 15; // Move bullet upward
+    bullet.y -= 15; // Déplacement du projectile
 
-    // Draw bullet trail
+    // Traînée lumineuse
     ctx.fillStyle = "rgba(255, 165, 0, 0.5)";
     ctx.fillRect(bullet.x, bullet.y + 10, bullet.width, bullet.height * 1.5);
 
-    // Draw main bullet body or custom bullet image
+    // Corps principal
     const gradient = ctx.createLinearGradient(
         bullet.x,
         bullet.y,
@@ -83,89 +93,114 @@ export function updateBullets() {
     ctx.fillStyle = gradient;
     ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
 
-    // Remove bullets that are off-screen
     if (bullet.y + bullet.height < 0) {
       bullets.splice(index, 1);
     }
   });
 }
-// -----------------------------------------------------------------------------
-// Mouse and Keyboard Input
-// -----------------------------------------------------------------------------
-let keys = {}; // Object to track pressed keys
-let mouseClick = false; // Track mouse click state
 
-// Handle key press
+// Chargement de l'image des missiles
+const missileImage = new Image();
+missileImage.src = "../Game/Images/Jet/MissileTransp.png"; // Chemin vers votre image
+missileImage.onload = function () {
+  console.log("Missile image loaded !");
+};
+
+// Fonction pour dessiner les missiles sous les ailes
+// function drawMissiles() {
+//     const leftMissileX = player.x + player.width / 1000; // Position sous l'aile gauche
+//     const leftMissileY = player.y + player.height / 1500; // Ajustement vertical pour l'aile
+//     const leftMissileX2 = player.x + player.width / 100; // Position sous l'aile gauche
+//     const leftMissileY2 = player.y + player.height / 25; // Ajustement vertical pour l'aile
+
+//     const rightMissileX = player.x + (3 * player.width) / 15; // Position sous l'aile droite
+//     const rightMissileY = player.y + player.height / 7; // Ajustement vertical pour l'aile
+//     const rightMissileX2 = player.x + (3 * player.width) / 17; // Position sous l'aile droite
+//     const rightMissileY2 = player.y + player.height / 8; // Ajustement vertical pour l'aile
+
+//     // Définir la zone de découpe pour masquer la partie inférieure
+//     ctx.save();
+//     ctx.beginPath();
+//     ctx.rect(leftMissileX2, leftMissileY2 + 60, 600, 200); // Ajustez les valeurs pour afficher uniquement la partie souhaitée
+//     ctx.clip();
+//     ctx.drawImage(missileImage, leftMissileX2, leftMissileY2, 600, 550);
+//     ctx.restore();
+
+//     // Traiter le missile droit supplémentaire (y2)
+//     ctx.save();
+//     ctx.beginPath();
+//     ctx.rect(rightMissileX2, rightMissileY2 + 60, 600, 200); // Ajustez les valeurs pour afficher uniquement la partie souhaitée
+//     ctx.clip();
+//     ctx.drawImage(missileImage, rightMissileX2, rightMissileY2, 600, 550);
+//     ctx.restore();
+
+//     // Dessiner les autres missiles sans rognage
+//     ctx.save();
+//     ctx.beginPath();
+//     ctx.rect(player.x, player.y + 60, player.width, player.height / 2.5); // Zone visible pour les autres missiles
+//     ctx.clip();
+
+//     ctx.drawImage(missileImage, leftMissileX, leftMissileY, 600, 550);
+//     ctx.drawImage(missileImage, rightMissileX, rightMissileY, 600, 550);
+
+//     ctx.restore();
+// }
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Managing user input for the jet (keyboard)
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+let keys = {}; // New variable to track keyboard click state
+let mouseClick = false; // New variable to track mouse click state
+
+// Event listener to detect pressed keys
 window.addEventListener("keydown", (e) => {
-  keys[e.key] = true;
+  keys[e.key] = true; // Enregistre la touche comme étant pressée
 });
 
-// Handle key release
+// Event listener to detect released keys
 window.addEventListener("keyup", (e) => {
-  keys[e.key] = false;
+  keys[e.key] = false; // Enregistre la touche comme relâchée
 });
 
-
-// Handle mouse down (start shooting)
-document.addEventListener("mousedown", (event) => {
+// Add an event listener for mouse management
+window.addEventListener("mousedown", (event) => {
   if (event.button === 0) { // Left mouse button
-    isShooting = true;
-
-    // Play the shooting sound
-    startShootingSound();
-
-    // Start firing bullets continuously
-    if (!shootingInterval) {
-      shootingInterval = setInterval(() => {
-        if (isShooting) {
-          fireBullet();
-        }
-      }, 100); // Adjust the interval (milliseconds) for the shooting rate
-    }
+    mouseClick = true;
   }
 });
 
-// Handle mouse up (stop shooting)
-document.addEventListener("mouseup", (event) => {
+window.addEventListener("mouseup", (event) => {
   if (event.button === 0) { // Left mouse button
-    isShooting = false;
-
-    // Stop the shooting sound
-    stopShootingSound();
-
-    // Stop continuous shooting
-    if (shootingInterval) {
-      clearInterval(shootingInterval);
-      shootingInterval = null;
-    }
+    mouseClick = false;
   }
 });
 
-// -----------------------------------------------------------------------------
-// Jet Actions
-// -----------------------------------------------------------------------------
+
+
+// Jet actions
 export function jetActions() {
-  // Move left (ArrowLeft or 'A')
+  // Left movement (ArrowLeft or A)
   if ((keys["ArrowLeft"] || keys["a"]) && player.x > -player.width / 2) {
-    activeJet.x -= 20;
+    player.x -= 20; // Jet goes left
   }
 
-  // Move right (ArrowRight or 'D')
+  // Right movement (ArrowRight or D)
   if ((keys["ArrowRight"] || keys["d"]) && player.x + player.width / 2 < canvas.width) {
-    activeJet.x += 20;
+    player.x += 20; // Jet goes right
   }
 
-  // Move up (ArrowUp or 'W')
+  // Up movement (ArrowUp or W)
   if ((keys["ArrowUp"] || keys["w"]) && player.y > 0) {
-    activeJet.y -= 20;
+    player.y -= 20; // Jet goes up
   }
 
-  // Move down (ArrowDown or 'S')
+  // Down movement (ArrowDown or S)
   if ((keys["ArrowDown"] || keys["s"]) && player.y + player.height <= canvas.height) {
-    activeJet.y += 20;
+    player.y += 20; // Jet goes down
   }
 
-  // Fire bullets (Space or left mouse click)
+  // Fire bullets (Space or Left Mouse Click)
   if (keys[" "] || mouseClick) {
     fireBullet();
   }

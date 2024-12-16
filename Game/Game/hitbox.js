@@ -4,7 +4,6 @@ import { meteors_array } from "./meteors.js";
 import { bullets } from "./jet.js"; // Import bullets array from jet.js
 import { gameState } from "./game.js";
 import { addPoints } from "./score.js";
-import { xwingBullets } from "./xwing.js";
 
 // Player lives configuration
 let lives = 3; // Number of lives
@@ -71,40 +70,37 @@ export function checkCollisions() {
 }
 
 export function checkProjectileCollisions() {
-  meteors_array.forEach((meteor, mIndex) => {
-    // Check collisions for F18 bullets
-    bullets.forEach((bullet, bIndex) => {
-      if (
-          bullet.x < meteor.x + 100 &&
-          bullet.x + bullet.width > meteor.x &&
-          bullet.y < meteor.y + 100 &&
-          bullet.y + bullet.height > meteor.y
-      ) {
-        // Remove meteor and bullet
-        meteors_array.splice(mIndex, 1);
-        bullets.splice(bIndex, 1);
+  bullets.forEach((bullet, bulletIndex) => {
+    meteors_array.forEach((meteor, meteorIndex) => {
+      // Define hitboxes for bullet and meteor
+      const bulletHitbox = {
+        x: bullet.x,
+        y: bullet.y,
+        width: bullet.width,
+        height: bullet.height,
+      };
 
-        addPoints(100); // Add score
-      }
-    });
+      const meteorHitbox = {
+        x: meteor.x,
+        y: meteor.y,
+        width: 100, // Same size as the meteor image
+        height: 100,
+      };
 
-    // Check collisions for X-Wing bullets
-    xwingBullets.forEach((bullet, bIndex) => {
-      if (
-          bullet.x < meteor.x + 100 &&
-          bullet.x + bullet.width > meteor.x &&
-          bullet.y < meteor.y + 100 &&
-          bullet.y + bullet.height > meteor.y
-      ) {
-        // Remove meteor and bullet
-        meteors_array.splice(mIndex, 1);
-        xwingBullets.splice(bIndex, 1);
-
-        addPoints(100); // Add score
+      // Check for collision between bullet and meteor
+      if (isCollision(bulletHitbox, meteorHitbox)) {
+        console.log("Projectile hit detected!");
+        console.log("Bullet Hitbox:", bulletHitbox);
+        console.log("Meteor Hitbox:", meteorHitbox);
+        console.log("Adding points for collision!");
+        addPoints(100); // Punkte hinzufügen
+        bullets.splice(bulletIndex, 1); // Remove the bullet
+        meteors_array.splice(meteorIndex, 1); // Remove the meteor
       }
     });
   });
 }
+
 // Function to check collision based on the distance between two objects
 function isCollisionWithDistance(obj1, obj2) {
   // Calculate the horizontal and vertical distances between the center points

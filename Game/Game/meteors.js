@@ -6,7 +6,7 @@ import {
   checkCollisions,
   checkProjectileCollisions,
 } from "./hitbox.js";
-import { drawScore } from "./score.js";
+import { drawScore, getMeteorSpeed } from "./score.js";
 
 export let meteors_array = []; //Array to manage multiple meteors at the same time
 const meteorImage = new Image();
@@ -46,8 +46,11 @@ export let animateMeteors = function () {
     checkCollisions(meteors_array);
   }
 
+  const meteorSpeed = getMeteorSpeed(); // Get the current speed based on the level
+  console.log(`Current meteor speed: ${meteorSpeed}`); // Log the current speed for debugging
+
   meteors_array.forEach((meteor, index) => {
-    meteor.y = meteor.y + 3; //Change this value to change the speed of meteors
+    meteor.y += meteorSpeed; // Use the speed based on the current level
     ctx.drawImage(meteorImage, meteor.x, meteor.y, 100, 100);
 
     if (meteor.y > canvas.height) {

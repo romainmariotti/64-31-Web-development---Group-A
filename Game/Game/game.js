@@ -1,10 +1,6 @@
-import { CallMeteor, animateMeteors } from './meteors.js';
-import { pauseButton } from './menus.js';
-import { canvas, ctx } from './constant.js';
-
-
-const background_image = new Image();
-background_image.src = "../Game/Images/sky.png";
+import { CallMeteor, animateMeteors } from "./meteors.js";
+import { pauseButton } from "./menus.js";
+import { canvas, ctx } from "./constant.js";
 
 let game_started = true;
 
@@ -15,21 +11,72 @@ export let gameState = {
     game_started,
 };
 
-//Draws the background image
-export function drawBackground(){
-    ctx.drawImage(background_image, 0, 0, canvas.width, canvas.height);
+// Array of image paths
+const layerPaths = [
+    "../Game/Images/Backgrounds/PNGs/Condesed/Layer01.png",
+    "../Game/Images/Backgrounds/PNGs/Condesed/Layer02.png",
+    "../Game/Images/Backgrounds/PNGs/Condesed/Layer03.png",
+];
+
+// Array to hold loaded images
+const layers = [];
+let imagesLoaded = 0;
+
+// Variables to track the position of each layer
+const layerPositions = [0, 0, 0];
+const layerSpeeds = [0.5, 1, 1.5]; // Different speeds for parallax effect
+
+// Load images dynamically
+layerPaths.forEach((path, index) => {
+    const img = new Image();
+    img.src = path;
+    img.onload = () => {
+        layers[index] = img;
+        imagesLoaded++;
+        if (imagesLoaded === layerPaths.length) {
+            startAnimation();
+        }
+    };
+});
+
+export function drawBackground() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    layers.forEach((layer, index) => {
+        ctx.drawImage(layer, 0, layerPositions[index], canvas.width, canvas.height);
+        ctx.drawImage(
+            layer,
+            0,
+            layerPositions[index] - canvas.height,
+            canvas.width,
+            canvas.height
+        );
+    });
+}
+
+function updateBackground() {
+    layers.forEach((layer, index) => {
+        layerPositions[index] += layerSpeeds[index];
+        if (layerPositions[index] >= canvas.height) {
+            layerPositions[index] = 0;
+        }
+    });
+}
+
+function startAnimation() {
+    function animate() {
+        updateBackground();
+        drawBackground();
+        requestAnimationFrame(animate);
+    }
+    animate();
 }
 
 //Starts the game (our main)
-export let startGame= function(){
+export let startGame = function () {
     document.getElementById("start-screen").style.display = "none";
     game_started = true;
-    drawBackground();
+    startAnimation();
     CallMeteor();
     animateMeteors();
     pauseButton();
-}
-
-
-
-
+};

@@ -39,10 +39,10 @@ function checkLevel() {
 export function getMeteorSpeed() {
   switch (level) {
     case 3:
-      return 5; // Speed for level 3
+      return 9; // Speed for level 3
     case 2:
-      return 3; // Speed for level 2
+      return 7; // Speed for level 2
     default:
-      return 2; // Speed for level 1
+      return 5; // Speed for level 1
   }
 }

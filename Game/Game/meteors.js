@@ -1,5 +1,5 @@
 import { gameState, drawBackground } from "./game.js";
-import { drawPlayer, jetActions, updateBullets } from "./jet.js";
+import { drawPlayer, jetActions, updateBullets, player } from "./jet.js";
 import { canvas, ctx } from "./constant.js";
 import {
   drawLives,
@@ -7,6 +7,8 @@ import {
   checkProjectileCollisions,
 } from "./hitbox.js";
 import { drawScore, getMeteorSpeed } from "./score.js";
+import { activeJet } from "./selectJet.js";
+import { xwing, xwingActions, drawXwing, updateXwingBullets  } from "./xwing.js";
 
 export let meteors_array = []; //Array to manage multiple meteors at the same time
 const meteorImage = new Image();
@@ -39,9 +41,19 @@ export let animateMeteors = function () {
 
   //Calls the jet and its actions
   if (gameState.game_started) {
-    drawPlayer();
-    jetActions();
-    updateBullets();
+
+    if(activeJet === player){
+      drawPlayer();
+      jetActions();
+      updateBullets();
+    }
+    else if(activeJet === xwing){
+      drawXwing();
+      xwingActions();
+      updateXwingBullets();
+    }
+
+
     checkProjectileCollisions(); // Check for projectile-meteor collisions
     checkCollisions(meteors_array);
   }

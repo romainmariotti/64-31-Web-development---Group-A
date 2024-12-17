@@ -2,13 +2,15 @@ import { CallMeteor, animateMeteors } from "./meteors.js";
 import { pauseButton } from "./menus.js";
 import { canvas, ctx } from "./constant.js";
 
-let game_started = true;
+
+
 
 //Put these variables into object in order to change their value in other files
 export let gameState = {
     animationFrameID: null,
     paused: false,
-    game_started,
+    soundCheck: false,
+    game_started: false,
 };
 
 // Array of image paths
@@ -74,7 +76,8 @@ function startAnimation() {
 //Starts the game (our main)
 export let startGame = function () {
     document.getElementById("start-screen").style.display = "none";
-    game_started = true;
+    gameState.game_started = true;
+    gameState.soundCheck = true;
     startAnimation();
     CallMeteor();
     animateMeteors();

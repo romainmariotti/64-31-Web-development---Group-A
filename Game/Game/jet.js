@@ -59,7 +59,7 @@ let canShoot = true;
 
 function fireBullet() {
   if (canShoot) {
-    const noseX = player.x + player.width / 2 + 20; // Aligne avec le nez de l'avion
+    const noseX = player.x + player.width / 2 + 3; // Aligne avec le nez de l'avion
     const noseY = player.y + 100; // Aligne avec le point rouge
     bullets.push({
       x: noseX - 1, // Décale légèrement pour le centrer
@@ -187,7 +187,7 @@ export function jetActions() {
   // Fire bullets (Space bar)
   if (keys[" "] || mouseClick) {
     fireBullet();
-    if(gameState.game_started === true && gameState.paused === false){
+    if(gameState.game_started === true && gameState.paused === false && !keys[" "]){
       startShootingSound();
     }
   }

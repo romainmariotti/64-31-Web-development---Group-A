@@ -6,8 +6,8 @@ import { gameState } from "./game.js";
 export let xwing = {
     x: canvas.width / 2 - 100, // Center the X-Wing horizontally
     y: canvas.height - 270, // Position the X-Wing lower on the screen
-    width: 200,
-    height: 250,
+    width: 150,
+    height: 200,
     image: new Image(), // Default X-Wing image
 };
 

@@ -36,10 +36,6 @@ const xwingBulletConfig = {
 let isShootingXwing = false;
 let xwingShootingInterval = null;
 
-
-
-
-
 export function fireXwingBullet() {
     const offsetX = 35; // Adjusts bullet position horizontally
     const offsetY = 50; // Adjusts bullet position vertically (downwards)
@@ -58,8 +54,6 @@ export function fireXwingBullet() {
         { x: noseX_left, y: noseY, width: xwingBulletConfig.width, height: xwingBulletConfig.height }
     );
 }
-
-
 
 // Update and Render Bullets
 export function updateXwingBullets() {
@@ -81,14 +75,42 @@ export function updateXwingBullets() {
     });
 }
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Bullets sound
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const shootingSound = new Audio("../Game/Sound/Blaster.mp3");
+function startShootingSound() {
+    if (shootingSound.paused || shootingSound.ended) {
+        shootingSound.currentTime = 0; // Reset to the beginning
+        shootingSound.play().catch((error) =>
+            console.error("Error playing shooting sound:", error)
+        );
+    }
+}
+
+// Function to stop the shooting sound
+function stopShootingSound() {
+    if (!shootingSound.paused) {
+        shootingSound.pause();
+        shootingSound.currentTime = 0; // Reset the sound
+    }
+}
+
 
 // X-Wing Actions (Keyboard and Mouse)
 let xwingKeys = {};
 window.addEventListener("keydown", (e) => {
     xwingKeys[e.key] = true;
+    if(e.key === " "){
+        startShootingSound();
+    }
 });
 window.addEventListener("keyup", (e) => {
     xwingKeys[e.key] = false;
+    if(e.key === " "){
+        stopShootingSound();
+    }
 });
 
 // Handle Mouse Down (Start Shooting)
@@ -125,6 +147,9 @@ document.addEventListener("mouseup", (event) => {
     }
 });
 
+let canShoot = true;
+
+
 
 // X-Wing Movement
 export function xwingActions() {
@@ -139,5 +164,16 @@ export function xwingActions() {
     }
     if ((xwingKeys["ArrowDown"] || xwingKeys["s"]) && xwing.y + xwing.height < canvas.height) {
         xwing.y += 20;
+    }
+
+    if (xwingKeys[" "] && canShoot === true) {
+        fireXwingBullet();
+        //startShootingSound();
+        canShoot = false;
+
+
+        setTimeout(() => {
+            canShoot = true;
+        }, 100);
     }
 }

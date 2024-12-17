@@ -103,7 +103,9 @@ export function updateBullets() {
 }
 
 const shootingSound = new Audio("../Game/Sound/Blaster.mp3");
-function startShootingSound() {
+shootingSound.loop = true;
+
+export function startShootingSound() {
   if (shootingSound.paused || shootingSound.ended) {
     shootingSound.currentTime = 0; // Reset to the beginning
     shootingSound.play().catch((error) =>
@@ -113,7 +115,7 @@ function startShootingSound() {
 }
 
 // Function to stop the shooting sound
-function stopShootingSound() {
+export function stopShootingSound() {
   if (!shootingSound.paused) {
     shootingSound.pause();
     shootingSound.currentTime = 0; // Reset the sound

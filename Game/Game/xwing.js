@@ -1,6 +1,7 @@
 import { canvas, ctx } from "./constant.js";
 import { activeJet } from "./selectJet.js";
 import { gameState } from "./game.js";
+import { startShootingSound, stopShootingSound } from "./jet.js";
 
 // X-Wing Configuration
 export let xwing = {
@@ -77,31 +78,8 @@ export function updateXwingBullets() {
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Bullets sound
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-const shootingSound = new Audio("../Game/Sound/Blaster.mp3");
-function startShootingSound() {
-    if (shootingSound.paused || shootingSound.ended) {
-        shootingSound.currentTime = 0; // Reset to the beginning
-        shootingSound.play().catch((error) =>
-            console.error("Error playing shooting sound:", error)
-        );
-    }
-}
-
-// Function to stop the shooting sound
-function stopShootingSound() {
-    if (!shootingSound.paused) {
-        shootingSound.pause();
-        shootingSound.currentTime = 0; // Reset the sound
-    }
-}
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 //User keys input
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 // X-Wing Actions (Keyboard and Mouse)
 let xwingKeys = {};

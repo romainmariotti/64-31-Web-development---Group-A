@@ -1,4 +1,10 @@
 import { canvas, ctx } from "./constant.js";
+import { activeJet } from "./selectJet.js";
+import { gameState } from "./game.js";
+
+
+
+// Jet (player) configuration
 
 // Configuration de l'avion
 export let player = {
@@ -96,12 +102,23 @@ export function updateBullets() {
   });
 }
 
-// Chargement de l'image des missiles
-const missileImage = new Image();
-missileImage.src = "../Game/Images/Jet/MissileTransp.png"; // Chemin vers votre image
-missileImage.onload = function () {
-  console.log("Missile image loaded !");
-};
+const shootingSound = new Audio("../Game/Sound/Blaster.mp3");
+function startShootingSound() {
+  if (shootingSound.paused || shootingSound.ended) {
+    shootingSound.currentTime = 0; // Reset to the beginning
+    shootingSound.play().catch((error) =>
+        console.error("Error playing shooting sound:", error)
+    );
+  }
+}
+
+// Function to stop the shooting sound
+function stopShootingSound() {
+  if (!shootingSound.paused) {
+    shootingSound.pause();
+    shootingSound.currentTime = 0; // Reset the sound
+  }
+}
 
 let keys = {}; // New variable to track keyboard click state
 let mouseClick = false; // New variable to track mouse click state
@@ -121,6 +138,11 @@ window.addEventListener("mousedown", (event) => {
   if (event.button === 0) {
     // Left mouse button
     mouseClick = true;
+
+    if(gameState.game_started===true && gameState.paused === false ){
+      startShootingSound();
+    }
+
   }
 });
 
@@ -128,6 +150,11 @@ window.addEventListener("mouseup", (event) => {
   if (event.button === 0) {
     // Left mouse button
     mouseClick = false;
+    console.log(gameState.soundCheck);
+
+    if(gameState.game_started===true && gameState.paused === false ){
+      stopShootingSound();
+    }
   }
 });
 

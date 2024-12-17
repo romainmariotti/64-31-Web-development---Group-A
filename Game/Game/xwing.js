@@ -1,5 +1,6 @@
 import { canvas, ctx } from "./constant.js";
 import { activeJet } from "./selectJet.js";
+import { gameState } from "./game.js";
 
 // X-Wing Configuration
 export let xwing = {
@@ -97,19 +98,27 @@ function stopShootingSound() {
     }
 }
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//User keys input
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 // X-Wing Actions (Keyboard and Mouse)
 let xwingKeys = {};
 window.addEventListener("keydown", (e) => {
     xwingKeys[e.key] = true;
     if(e.key === " "){
-        startShootingSound();
+        if(gameState.game_started === true && gameState.paused === false) {
+            startShootingSound();
+        }
     }
 });
 window.addEventListener("keyup", (e) => {
     xwingKeys[e.key] = false;
     if(e.key === " "){
-        stopShootingSound();
+        if(gameState.game_started === true && gameState.paused === false) {
+            stopShootingSound();
+        }
     }
 });
 
@@ -148,7 +157,6 @@ document.addEventListener("mouseup", (event) => {
 });
 
 let canShoot = true;
-
 
 
 // X-Wing Movement

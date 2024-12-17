@@ -17,9 +17,15 @@ export function selectJet(jetType) {
 }
 
 
-
 // Function to show the jet selection menu
 export function showJetSelectionMenu() {
+
+    // Hide the start screen buttons
+    const startScreen = document.getElementById("start-screen");
+    if (startScreen) {
+        startScreen.style.display = "none"; // Hide the start screen buttons
+    }
+
     const selectionScreen = document.createElement("div");
     selectionScreen.id = "jet-selection-screen";
     selectionScreen.style.position = "fixed";
@@ -31,7 +37,6 @@ export function showJetSelectionMenu() {
     selectionScreen.style.flexDirection = "column";
     selectionScreen.style.alignItems = "center";
     selectionScreen.style.justifyContent = "center";
-    selectionScreen.style.backgroundImage = "url('../Game/Images/sky.png')";
     selectionScreen.style.backgroundSize = "cover";
     selectionScreen.style.zIndex = "1000";
 

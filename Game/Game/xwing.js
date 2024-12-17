@@ -176,7 +176,6 @@ export function xwingActions() {
 
     if (xwingKeys[" "] && canShoot === true) {
         fireXwingBullet();
-        //startShootingSound();
         canShoot = false;
 
 

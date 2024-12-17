@@ -2,6 +2,8 @@ import { canvas, ctx } from "./constant.js";
 import { player } from "./jet.js";
 import { meteors_array } from "./meteors.js";
 import { bullets } from "./jet.js"; // Import bullets array from jet.js
+import { xwing } from "./xwing.js";
+import { activeJet } from "./selectJet.js";
 import { gameState } from "./game.js";
 import { addPoints } from "./score.js";
 
@@ -45,7 +47,7 @@ function isCollision(rect1, rect2) {
   );
 }
 
-export function checkCollisions() {
+export function checkCollisions(context) {
   meteors_array.forEach((meteor, index) => {
     const meteorHitbox = {
       x: meteor.x,
@@ -54,14 +56,48 @@ export function checkCollisions() {
       height: 100,
     };
 
-    const jetHitbox = {
-      x: player.x,
-      y: player.y,
-      width: player.width,
-      height: player.height,
-    };
+    function getHitbox() {
+      //X-Wing hitbox
+      if (activeJet.image.src.includes("X-Wing")) {
+        const xPadding = xwing.width * 0.12; // Adjust hitbox width
+        const yPadding = xwing.height * 0.06; // Adjust hitbox height
+        const xOffset = xwing.width * 0.05; // Plane image not centered, so offset to "push" it to the left
+        const yOffset = xwing.height * 0.05; // Plane image not centered, so offset to "push" it upwards
 
-    if (isCollisionWithDistance(jetHitbox, meteorHitbox)) {
+        return {
+          x: xwing.x + xOffset,
+          y: xwing.y + yOffset,
+          width: xwing.width - xPadding,
+          height: xwing.height - yPadding
+        };
+      }
+
+      //FA-18 hitbox
+      else {
+        // Adjust player hitbox size and position
+        const paddingX = player.width * 0.8; // Adjust hitbox width
+        const paddingY = player.height * 0.55; // Adjust hitbox height
+        const offsetX = player.width * 0.01; // Plane image not centered, so offset to "push" it to the left
+        const offsetY = player.height * 0.07; // Plane image not centered, so offset to "push" it upwards
+
+        return {
+          x: player.x + paddingX / 2 + offsetX,
+          y: player.y + paddingY / 2 - offsetY,
+          width: player.width - paddingX,
+          height: player.height - paddingY
+        };
+      }
+    }
+
+    const jetHitbox = getHitbox();
+
+    // jet hitbox debugging
+    // ctx.strokeStyle = "red"; // Set outline color
+    // ctx.lineWidth = 2;       // Set outline thickness
+    // ctx.strokeRect(jetHitbox.x, jetHitbox.y, jetHitbox.width, jetHitbox.height);
+
+
+    if (isCollision(jetHitbox, meteorHitbox)) {
       console.log("Collision detected with Jet!");
       meteors_array.splice(index, 1);
       reduceLives();
@@ -101,19 +137,6 @@ export function checkProjectileCollisions() {
   });
 }
 
-// Function to check collision based on the distance between two objects
-function isCollisionWithDistance(obj1, obj2) {
-  // Calculate the horizontal and vertical distances between the center points
-  const dx = obj1.x + obj1.width / 2 - (obj2.x + obj2.width / 2); // Horizontal distance
-  const dy = obj1.y + obj1.height / 2 - (obj2.y + obj2.height / 2); // Vertical distance
-  const distance = Math.sqrt(dx * dx + dy * dy); // Euclidean distance between the centers
-
-  // Define a threshold based on the object sizes for a collision to occur
-  const collisionThreshold = (obj1.width + obj2.width) / 4; // Adjust this value as needed
-
-  // Return true if the distance is smaller than the collision threshold
-  return distance < collisionThreshold;
-}
 
 // Function to reduce lives when a collision occurs
 export function reduceLives() {

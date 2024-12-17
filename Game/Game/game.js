@@ -9,7 +9,6 @@ import { canvas, ctx } from "./constant.js";
 export let gameState = {
     animationFrameID: null,
     paused: false,
-    soundCheck: false,
     game_started: false,
 };
 
@@ -77,7 +76,6 @@ function startAnimation() {
 export let startGame = function () {
     document.getElementById("start-screen").style.display = "none";
     gameState.game_started = true;
-    gameState.soundCheck = true;
     startAnimation();
     CallMeteor();
     animateMeteors();

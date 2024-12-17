@@ -131,6 +131,11 @@ window.addEventListener("keydown", (e) => {
 // Event listener to detect released keys
 window.addEventListener("keyup", (e) => {
   keys[e.key] = false; // Enregistre la touche comme relâchée
+  if(e.key === " "){
+    if(gameState.game_started===true && gameState.paused === false){
+      stopShootingSound();
+    }
+  }
 });
 
 // Add an event listener for mouse management
@@ -150,7 +155,6 @@ window.addEventListener("mouseup", (event) => {
   if (event.button === 0) {
     // Left mouse button
     mouseClick = false;
-    console.log(gameState.soundCheck);
 
     if(gameState.game_started===true && gameState.paused === false ){
       stopShootingSound();
@@ -166,28 +170,25 @@ export function jetActions() {
   }
 
   // Right movement (ArrowRight or D)
-  if (
-      (keys["ArrowRight"] || keys["d"]) &&
-      player.x + player.width / 2 < canvas.width
-  ) {
+  if ((keys["ArrowRight"] || keys["d"]) && player.x + player.width / 2 < canvas.width) {
     player.x += 20; // Jet goes right
   }
 
   // Up movement (ArrowUp or W)
-  if ((keys["ArrowUp"] || keys["w"]) && player.y > 0) {
+  if ((keys["ArrowUp"] || keys["w"]) && player.y > -player.height / 5) {
     player.y -= 20; // Jet goes up
   }
 
   // Down movement (ArrowDown or S)
-  if (
-      (keys["ArrowDown"] || keys["s"]) &&
-      player.y + player.height <= canvas.height
-  ) {
+  if ((keys["ArrowDown"] || keys["s"]) && player.y + player.height / 1.5 < canvas.height) {
     player.y += 20; // Jet goes down
   }
 
-  // Fire bullets (Space or Left Mouse Click)
+  // Fire bullets (Space bar)
   if (keys[" "] || mouseClick) {
     fireBullet();
+    if(gameState.game_started === true && gameState.paused === false){
+      startShootingSound();
+    }
   }
 }

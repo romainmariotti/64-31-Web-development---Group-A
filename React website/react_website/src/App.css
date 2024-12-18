@@ -5,6 +5,7 @@
 body {
   padding-left: 2%;
   padding-right: 2%;
+  overflow-x: hidden;
 }
 
 body h2 {
@@ -98,7 +99,7 @@ aside li {
 }
 
 .background_image {
-  border-top-left-radius: 15px; /* round image corners*/
+  border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   /* object-fit: cover; Zoom on the image and not stretch*/
   width: 100%;
@@ -110,4 +111,26 @@ h1 {
   color: white;
   bottom: 0;
   margin-left: 2%;
+}
+
+/* footer settings */
+.wp-block-group.alignfull.has-background-color {
+  background-color: rgb(189, 189, 189);
+  width: 99.8vw; /* adjust thsi value to fix bottom right roudned corner issue (lower value)  */
+  margin-left: -2%;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+/* footer image settings */
+.wp-block-group.alignfull.has-background-color img {
+  margin-left: 77vw;
+  margin-bottom: -2%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+/* specific footer settings for introduciton page */
+.container .wp-block-group.alignfull.has-background-color {
+  margin-left: -2.5%;
 }

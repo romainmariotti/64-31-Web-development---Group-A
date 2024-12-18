@@ -2,9 +2,7 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import MockupPage from "./pages/Mockup"; // Import Logbook page
 import LogbookPage from "./pages/Logbook";
-import SketchPage from "./pages/Sketch";
 import IntroductionPage from "./pages/Introduction";
-import FlowPage from "./pages/Flow";
 import DetailedDescriptionPage from "./pages/DetailedDescription";
 import ResultPage from "./pages/Result";
 import LinksPage from "./pages/Links";
@@ -51,13 +49,7 @@ function App() {
             <Link to="/">Introduction</Link>
           </li>
           <li>
-            <Link to="/sketch">Sketch</Link>
-          </li>
-          <li>
             <Link to="/mockup">Mockup</Link>
-          </li>
-          <li>
-            <Link to="/flow">Flow</Link>
           </li>
           <li>
             <Link to="/logbook">Logbook</Link>
@@ -79,14 +71,9 @@ function App() {
             element={<IntroductionPage data={jsonData} />}
           ></Route>
           <Route
-            path="/sketch"
-            element={<SketchPage data={jsonData} />}
-          ></Route>
-          <Route
             path="/mockup"
             element={<MockupPage data={jsonData} />}
           ></Route>
-          <Route path="/flow" element={<FlowPage data={jsonData} />}></Route>
           <Route
             path="/logbook"
             element={<LogbookPage data={jsonData} />}

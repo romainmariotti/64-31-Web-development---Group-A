@@ -6,9 +6,44 @@ import IntroductionPage from "./pages/Introduction";
 import DetailedDescriptionPage from "./pages/DetailedDescription";
 import ResultPage from "./pages/Result";
 import LinksPage from "./pages/Links";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useLocation,
+} from "react-router-dom";
 
 export const jsonData = []; // Export empty array for now, will be updated after fetching data
+
+//Links for routing. Separated from the <Router> be able to use "useLocation()", to apply active ID to the <li> elements
+function Navigation() {
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
+
+  return (
+    <ul className="linkers">
+      <li id={isActive("/") ? "active" : ""}>
+        <Link to="/">Introduction</Link>
+      </li>
+      <li id={isActive("/mockup") ? "active" : ""}>
+        <Link to="/mockup">Mockup</Link>
+      </li>
+      <li id={isActive("/logbook") ? "active" : ""}>
+        <Link to="/logbook">Logbook</Link>
+      </li>
+      <li id={isActive("/detailed-description") ? "active" : ""}>
+        <Link to="/detailed-description">Detailed description</Link>
+      </li>
+      <li id={isActive("/result") ? "active" : ""}>
+        <Link to="/result">Result</Link>
+      </li>
+      <li id={isActive("/links") ? "active" : ""}>
+        <Link to="/links">Links</Link>
+      </li>
+    </ul>
+  );
+}
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -44,26 +79,8 @@ function App() {
           <h1>HES-SO Vs - 64-31 - Web Development</h1>
           <img src="background.jpg" class="background_image"></img>
         </div>
-        <ul className="linkers">
-          <li>
-            <Link to="/">Introduction</Link>
-          </li>
-          <li>
-            <Link to="/mockup">Mockup</Link>
-          </li>
-          <li>
-            <Link to="/logbook">Logbook</Link>
-          </li>
-          <li>
-            <Link to="/detailed-description">Detailed description</Link>
-          </li>
-          <li>
-            <Link to="/result">Result</Link>
-          </li>
-          <li>
-            <Link to="/links">Links</Link>
-          </li>
-        </ul>
+
+        <Navigation />
 
         <Routes>
           <Route

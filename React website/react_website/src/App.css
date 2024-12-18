@@ -36,7 +36,8 @@ figcaption {
 
 .linkers > li {
   display: inline-block;
-  padding-right: 2%;
+  padding-left: 1%;
+  padding-right: 1%;
   padding-top: 1%;
   padding-bottom: 1%;
 }
@@ -48,6 +49,15 @@ figcaption {
 
 .linkers > li > a:visited {
   color: transparent; /* cancel color change when after visiting link */
+}
+
+#active {
+  background-color: white;
+}
+
+#active a {
+  color: rgb(26, 165, 222);
+  font-weight: bold;
 }
 
 aside {

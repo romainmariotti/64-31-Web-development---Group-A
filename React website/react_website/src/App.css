@@ -25,6 +25,10 @@ figcaption {
   color: gray;
 }
 
+/* --------------------------------------------
+Hamburger menu
+-----------------------------------------------*/
+
 .linkers {
   background-color: rgb(189, 189, 189);
   list-style-type: none; /* remvove bullet points */
@@ -32,6 +36,7 @@ figcaption {
   margin-left: -2%; /* cancel left padding from body selector */
   margin-right: -2%; /* same but for right padding */
   margin-bottom: 3%;
+  padding-left: 1%;
 }
 
 .linkers > li {
@@ -59,6 +64,10 @@ figcaption {
   color: rgb(26, 165, 222);
   font-weight: bold;
 }
+
+/* --------------------------------------------
+Aside in introduction page
+-----------------------------------------------*/
 
 aside {
   width: 18%;
@@ -93,6 +102,10 @@ aside li {
   padding: 2%;
 }
 
+/* --------------------------------------------
+Introduction page left part
+-----------------------------------------------*/
+
 .container img {
   margin-left: 0;
 }
@@ -100,6 +113,10 @@ aside li {
 .container {
   width: 80%;
 }
+
+/* --------------------------------------------
+Top of all pages title and image
+-----------------------------------------------*/
 
 .background {
   position: relative;
@@ -123,7 +140,10 @@ h1 {
   margin-left: 2%;
 }
 
-/* footer settings */
+/* --------------------------------------------
+Footer
+-----------------------------------------------*/
+
 .wp-block-group.alignfull.has-background-color {
   background-color: rgb(189, 189, 189);
   width: 99.8vw; /* adjust thsi value to fix bottom right roudned corner issue (lower value)  */
@@ -143,4 +163,40 @@ h1 {
 /* specific footer settings for introduciton page */
 .container .wp-block-group.alignfull.has-background-color {
   margin-left: -2.5%;
+}
+
+/* --------------------------------------------
+Table in logbook
+-----------------------------------------------*/
+
+table {
+  border-spacing: 0;
+  width: 100%;
+  margin-left: -2.5%;
+}
+
+/* table header */
+table tr:first-child td {
+  background-color: rgb(26, 165, 222);
+  color: white;
+}
+
+/* All individual cases of the table */
+td {
+  border: solid 1px lightgray;
+  padding: 2%;
+}
+
+/* rounding edges of the table */
+table tr:first-child td:first-child {
+  border-top-left-radius: 15px;
+}
+table tr:first-child td:last-child {
+  border-top-right-radius: 15px;
+}
+table tr:last-child td:first-child {
+  border-bottom-left-radius: 15px;
+}
+table tr:last-child td:last-child {
+  border-bottom-right-radius: 15px;
 }

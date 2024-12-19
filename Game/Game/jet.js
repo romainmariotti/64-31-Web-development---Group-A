@@ -41,17 +41,14 @@ export function drawPlayer() {
       player.width,
       player.height // Destination rectangle
   );
+
 }
 // ...existing code...
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Bullets
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-const bulletImage = new Image();
-bulletImage.src = "../Game/Images/Jet/ProjectileMitrailleuseTransp.png"; // Chemin vers ton image
-bulletImage.onload = function () {
-  console.log("Projectile image loaded !");
-};
+
 
 export let bullets = [];
 
@@ -59,12 +56,12 @@ let canShoot = true;
 
 function fireBullet() {
   if (canShoot) {
-    const noseX = player.x + player.width / 2 + 3; // Aligne avec le nez de l'avion
+    const noseX = player.x + player.width / 2 + 4; // Aligne avec le nez de l'avion
     const noseY = player.y + 100; // Aligne avec le point rouge
     bullets.push({
       x: noseX - 1, // Décale légèrement pour le centrer
       y: noseY,
-      width: 5, // Largeur plus fine
+      width: 3, // Largeur plus fine
       height: 30, // Hauteur plus longue
     });
     console.log("Bullet fired from:", { x: noseX, y: noseY });
@@ -73,6 +70,8 @@ function fireBullet() {
       canShoot = true; // Réautorise à tirer après 200ms
     }, 100);
   }
+
+  console.log("Player position before firing:", player.x, player.y);
 }
 
 export function updateBullets() {
@@ -105,6 +104,7 @@ export function updateBullets() {
 const shootingSound = new Audio("../Game/Sound/Blaster.mp3");
 shootingSound.loop = true;
 
+
 export function startShootingSound() {
   if (shootingSound.paused || shootingSound.ended) {
     shootingSound.currentTime = 0; // Reset to the beginning
@@ -127,40 +127,36 @@ let mouseClick = false; // New variable to track mouse click state
 
 // Event listener to detect pressed keys
 window.addEventListener("keydown", (e) => {
-  keys[e.key] = true; // Enregistre la touche comme étant pressée
+  keys[e.key] = true;
+
+  if (e.key === " " && gameState.game_started === true && gameState.paused === false && activeJet === player) {
+    startShootingSound();
+    fireBullet();
+  }
 });
 
 // Event listener to detect released keys
 window.addEventListener("keyup", (e) => {
-  keys[e.key] = false; // Enregistre la touche comme relâchée
-  if(e.key === " "){
-    if(gameState.game_started===true && gameState.paused === false){
-      stopShootingSound();
-    }
+  keys[e.key] = false;
+
+  if (e.key === " " && gameState.game_started === true && gameState.paused === false && activeJet === player) {
+    stopShootingSound();
   }
 });
 
 // Add an event listener for mouse management
 window.addEventListener("mousedown", (event) => {
-  if (event.button === 0) {
-    // Left mouse button
+  if (event.button === 0 && gameState.game_started === true && gameState.paused === false && activeJet === player) {
     mouseClick = true;
-
-    if(gameState.game_started===true && gameState.paused === false ){
-      startShootingSound();
-    }
-
+    startShootingSound();
+    fireBullet();
   }
 });
 
 window.addEventListener("mouseup", (event) => {
-  if (event.button === 0) {
-    // Left mouse button
+  if (event.button === 0 && gameState.game_started === true && gameState.paused === false && activeJet === player) {
     mouseClick = false;
-
-    if(gameState.game_started===true && gameState.paused === false ){
-      stopShootingSound();
-    }
+    stopShootingSound();
   }
 });
 
@@ -189,7 +185,7 @@ export function jetActions() {
   // Fire bullets (Space bar)
   if (keys[" "] || mouseClick) {
     fireBullet();
-    if(gameState.game_started === true && gameState.paused === false && !keys[" "]){
+    if (gameState.game_started === true && gameState.paused === false && activeJet === player) {
       startShootingSound();
     }
   }

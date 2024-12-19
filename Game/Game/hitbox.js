@@ -6,6 +6,8 @@ import { xwing, xwingBullets } from "./xwing.js";
 import { activeJet } from "./selectJet.js";
 import { gameState } from "./game.js";
 import { addPoints } from "./score.js";
+import { Zero, zeroBullets } from "./Zero.js";
+
 
 // Player lives configuration
 let lives = 3; // Number of lives
@@ -74,7 +76,7 @@ export function checkCollisions() {
       }
 
       //FA-18 hitbox
-      else {
+      else if (activeJet.image.src.includes("FA18transp")) {
         // Adjust player hitbox size and position
         const paddingX = player.width * 0.8; // Adjust hitbox width
         const paddingY = player.height * 0.55; // Adjust hitbox height
@@ -88,6 +90,22 @@ export function checkCollisions() {
           height: player.height - paddingY
         };
       }
+
+      //Zero hitbox
+     else if (activeJet.image.src.includes("A6MZero")) {
+        const xPadding = Zero.width * 0.3; // Adjust hitbox width
+        const yPadding = Zero.height * 0.2; // Adjust hitbox height
+        const xOffset = Zero.width * 0.1; // Plane image not centered, so offset to "push" it to the left
+        const yOffset = Zero.height * 0.05; // Plane image not centered, so offset to "push" it upwards
+
+        return {
+          x: Zero.x + xOffset,
+          y: Zero.y + yOffset,
+          width: Zero.width - xPadding,
+          height: Zero.height - yPadding
+        };
+      }
+
     }
 
     const jetHitbox = getHitbox();
@@ -161,9 +179,35 @@ export function checkProjectileCollisions() {
       }
     });
   });
+
+
+// Check collisions for Zero bullets
+  zeroBullets.forEach((bullet, bulletIndex) => {
+    meteors_array.forEach((meteor, meteorIndex) => {
+      const bulletHitbox = {
+        x: bullet.x,
+        y: bullet.y,
+        width: bullet.width,
+        height: bullet.height,
+      };
+
+      const meteorHitbox = {
+        x: meteor.x,
+        y: meteor.y,
+        width: 100, // Assuming meteor image size
+        height: 100, // Adjust if necessary
+      };
+
+      // Check for collision between the bullet and the meteor
+      if (isCollision(bulletHitbox, meteorHitbox)) {
+        console.log("Zero projectile hit detected!");
+        addPoints(100); // Add points for the collision
+        zeroBullets.splice(bulletIndex, 1); // Remove the bullet
+        meteors_array.splice(meteorIndex, 1); // Remove the meteor
+      }
+    });
+  });
 }
-
-
 // Function to reduce lives when a collision occurs
 export function reduceLives() {
   if (lives > 0) {

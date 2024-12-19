@@ -1,18 +1,23 @@
 import { player } from "./jet.js"; // F18 configuration
 import { xwing } from "./xwing.js"; // X-Wing configuration
 import { startGame } from "./game.js"; // To start the game
+import {Zero} from "./Zero.js"; //Zero configuration
 
 // Default to F18
 export let activeJet = null; // Global variable to track the currently selected jet
 
 export function selectJet(jetType) {
     if (jetType === "F18") {
-        activeJet = player; // Utilise l'objet original
+        activeJet = player;
         console.log("F18 selected");
     } else if (jetType === "X-Wing") {
-        activeJet = xwing; // Utilise l'objet original
+        activeJet = xwing;
         console.log("X-Wing selected");
+    } else if (jetType==="Zero") {
+        activeJet = Zero;
+        console.log("Zero selected");
     }
+
     console.log("Active jet:", activeJet);
 }
 
@@ -47,7 +52,7 @@ export function showJetSelectionMenu() {
 
     // F18 Button
     const f18Button = document.createElement("button");
-    f18Button.innerText = "F18";
+    f18Button.innerText = "F18 Blaster";
     f18Button.style.margin = "10px";
     f18Button.onclick = function () {
         selectJet("F18");
@@ -66,6 +71,19 @@ export function showJetSelectionMenu() {
         startGame();
     };
     selectionScreen.appendChild(xwingButton);
+
+    //Zero Button
+    const zeroButton = document.createElement("button");
+    zeroButton.innerText="A6M Zero";
+    zeroButton.style.margin = "10px";
+    zeroButton.onclick = function () {
+        selectJet("Zero");
+        selectionScreen.remove();
+        startGame();
+    };
+    selectionScreen.appendChild(zeroButton);
+
+    
 
     document.body.appendChild(selectionScreen);
 }

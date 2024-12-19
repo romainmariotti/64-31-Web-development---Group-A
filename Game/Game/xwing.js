@@ -85,29 +85,20 @@ export function updateXwingBullets() {
 let xwingKeys = {};
 window.addEventListener("keydown", (e) => {
     xwingKeys[e.key] = true;
-    if(e.key === " "){
-        if(gameState.game_started === true && gameState.paused === false) {
-            startShootingSound();
-        }
+    if (e.key === " " && gameState.game_started === true && gameState.paused === false && activeJet === xwing) {
+        startShootingSound();
     }
 });
 window.addEventListener("keyup", (e) => {
     xwingKeys[e.key] = false;
-    if(e.key === " "){
-        if(gameState.game_started === true && gameState.paused === false) {
-            stopShootingSound();
-        }
+    if (e.key === " " && gameState.game_started === true && gameState.paused === false && activeJet === xwing) {
+        stopShootingSound();
     }
 });
-
 // Handle Mouse Down (Start Shooting)
 document.addEventListener("mousedown", (event) => {
-    console.log("Mouse down event detected");
-
-    if (event.button === 0 && activeJet.image.src.includes("X-Wing")) {
-        console.log("Firing enabled for X-Wing");
+    if (event.button === 0 && activeJet === xwing) {
         isShootingXwing = true;
-
 
         if (!xwingShootingInterval) {
             xwingShootingInterval = setInterval(() => {
@@ -116,21 +107,20 @@ document.addEventListener("mousedown", (event) => {
                 }
             }, 100);
         }
+
+        startShootingSound();
     }
-});
-
+})
 document.addEventListener("mouseup", (event) => {
-    console.log("Mouse up event detected");
-
-    if (event.button === 0 && activeJet.image.src.includes("X-Wing")) {
-        console.log("Firing disabled for X-Wing");
+    if (event.button === 0 && activeJet === xwing) {
         isShootingXwing = false;
-
 
         if (xwingShootingInterval) {
             clearInterval(xwingShootingInterval);
             xwingShootingInterval = null;
         }
+
+        stopShootingSound();
     }
 });
 

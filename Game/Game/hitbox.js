@@ -6,7 +6,7 @@ import { xwing, xwingBullets } from "./xwing.js";
 import { activeJet } from "./selectJet.js";
 import { gameState } from "./game.js";
 import { addPoints } from "./score.js";
-import { Zero, zeroBullets } from "./Zero.js";
+import { Zero, zeroBullets, zeroSecondaryBullets } from "./Zero.js";
 
 
 // Player lives configuration
@@ -198,11 +198,41 @@ export function checkProjectileCollisions() {
         height: 100, // Adjust if necessary
       };
 
+
       // Check for collision between the bullet and the meteor
       if (isCollision(bulletHitbox, meteorHitbox)) {
         console.log("Zero projectile hit detected!");
         addPoints(100); // Add points for the collision
         zeroBullets.splice(bulletIndex, 1); // Remove the bullet
+        meteors_array.splice(meteorIndex, 1); // Remove the meteor
+      }
+    });
+  });
+
+
+// Check collisions for Zero secondary bullets
+  zeroSecondaryBullets.forEach((bullet, bulletIndex) => {
+    meteors_array.forEach((meteor, meteorIndex) => {
+      const bulletHitbox = {
+        x: bullet.x,
+        y: bullet.y,
+        width: bullet.width,
+        height: bullet.height,
+      };
+
+      const meteorHitbox = {
+        x: meteor.x,
+        y: meteor.y,
+        width: 100, // Assuming meteor image size
+        height: 100, // Adjust if necessary
+      };
+
+
+      // Check for collision between the bullet and the meteor
+      if (isCollision(bulletHitbox, meteorHitbox)) {
+        console.log("Zero projectile hit detected!");
+        addPoints(100); // Add points for the collision
+        zeroSecondaryBullets.splice(bulletIndex, 1); // Remove the bullet
         meteors_array.splice(meteorIndex, 1); // Remove the meteor
       }
     });

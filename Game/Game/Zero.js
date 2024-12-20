@@ -161,6 +161,122 @@ let canShoot = true;
 zeroShootingSound.onplay = () => console.log("Zero shooting sound is playing");
 zeroShootingSound.onpause = () => console.log("Zero shooting sound is paused");
 
+// Zero Secondary Bullets Configuration
+const secondaryShootingSound = new Audio("../Game/Sound/7.7mm.mp3");
+secondaryShootingSound.loop = false; // No looping, as it's a single-shot sound
+secondaryShootingSound.onerror = () => console.error("Failed to load SecondaryFire.mp3");
+
+export let zeroSecondaryBullets = [];
+let isSecondaryShooting = false;
+let secondaryShootingInterval = null;
+// Define the dimensions and behavior of Zero's secondary projectiles
+const zeroSecondaryBulletConfig = {
+    width: 3,
+    height: 15,
+    speed: 30, // Speed of the secondary bullets
+    color: "rgba(255,165, 0, 1)", // Green for the bullet body
+    trailColor: "rgba(255, 0, 0, 0.7)", // Dark green for the bullet trail
+};
+function playSecondaryShootingSound() {
+    if (secondaryShootingSound.paused || secondaryShootingSound.ended) {
+        secondaryShootingSound.currentTime = 0; // Reset to the beginning
+        secondaryShootingSound.play().catch((error) =>
+            console.error("Error playing secondary shooting sound:", error)
+        );
+    }
+}
+
+// Secondary fire function
+export function fireZeroSecondaryBullet() {
+    const offsetX = 25; // Adjusts bullet position horizontally
+    const offsetY = 40; // Adjusts bullet position vertically (downwards)
+
+    // Bullet starting positions closer to the center of the wings
+    const noseY = Zero.y + offsetY;
+
+    // Right wing machine gun
+    const noseX_right = Zero.x + Zero.width * 0.52;
+
+    // Left wing machine gun
+    const noseX_left = Zero.x + Zero.width * 0.45;
+
+    zeroSecondaryBullets.push(
+        { x: noseX_right, y: noseY, width: zeroSecondaryBulletConfig.width, height: zeroSecondaryBulletConfig.height },
+        { x: noseX_left, y: noseY, width: zeroSecondaryBulletConfig.width, height: zeroSecondaryBulletConfig.height }
+    );
+
+    // Play the secondary shooting sound
+    playSecondaryShootingSound();
+}
+
+function startAutoSecondaryFire() {
+    if (!secondaryShootingInterval) {
+        secondaryShootingInterval = setInterval(() => {
+            if (isSecondaryShooting) {
+                fireZeroSecondaryBullet();
+            }
+        }, 70); // Faster firing interval
+    }
+}
+function stopSecondaryShootingSound() {
+    if (!secondaryShootingSound.paused) {
+        secondaryShootingSound.pause();
+        secondaryShootingSound.currentTime = 0; // Reset the sound
+    }
+}
+
+function stopAutoSecondaryFire() {
+    if (secondaryShootingInterval) {
+        clearInterval(secondaryShootingInterval);
+        secondaryShootingInterval = null;
+    }
+    stopSecondaryShootingSound(); // Stop the sound
+}
+
+document.addEventListener("mousedown", (event) => {
+    if (event.button === 2 && activeJet && activeJet.image.src.includes("A6MZero")) {
+        console.log("Secondary fire enabled for A6MZero");
+        isSecondaryShooting = true; // Activate secondary shooting
+        startAutoSecondaryFire(); // Start firing automatically
+    }
+});
+
+document.addEventListener("mouseup", (event) => {
+    if (event.button === 2 && activeJet && activeJet.image.src.includes("A6MZero")) {
+        console.log("Secondary fire disabled for A6MZero");
+        isSecondaryShooting = false; // Deactivate secondary shooting
+        stopAutoSecondaryFire(); // Stop firing and sound
+    }
+});
+
+
+// Update and Render Secondary Bullets
+export function updateZeroSecondaryBullets() {
+    zeroSecondaryBullets.forEach((bullet, index) => {
+        bullet.y -= zeroSecondaryBulletConfig.speed;
+
+        // Draw bullet trail
+        ctx.fillStyle = zeroSecondaryBulletConfig.trailColor;
+        ctx.fillRect(bullet.x, bullet.y + 10, bullet.width, bullet.height * 1.5);
+
+        // Draw main bullet
+        ctx.fillStyle = zeroSecondaryBulletConfig.color;
+        ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+
+        if (bullet.y + bullet.height < 0) {
+            zeroSecondaryBullets.splice(index, 1);
+        }
+    });
+}
+
+
+
+// Prevent default context menu on right-click
+document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+});
+
+
 // X-Wing Movement
 export function zeroActions() {
     if ((zeroKeys["ArrowLeft"] || zeroKeys["a"]) && Zero.x > 0) {
@@ -185,4 +301,6 @@ export function zeroActions() {
             canShoot = true;
         }, 100);
     }
+    updateZeroBullets();
+    updateZeroSecondaryBullets();
 }

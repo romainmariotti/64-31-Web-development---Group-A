@@ -9,7 +9,7 @@ import {
 import { drawScore, getMeteorSpeed } from "./score.js";
 import { activeJet } from "./selectJet.js";
 import { xwing, xwingActions, drawXwing, updateXwingBullets  } from "./xwing.js";
-import { Zero, zeroActions, drawZero, updateZeroBullets  } from "./Zero.js";
+import {Zero, zeroActions, drawZero, updateZeroBullets, updateZeroSecondaryBullets} from "./Zero.js";
 
 
 export let meteors_array = []; //Array to manage multiple meteors at the same time
@@ -54,10 +54,11 @@ export let animateMeteors = function () {
       xwingActions();
       updateXwingBullets();
     }
-    else if (activeJet == Zero) {
+    else if (activeJet === Zero) {
       drawZero();
       zeroActions();
       updateZeroBullets();
+      updateZeroSecondaryBullets()
     }
 
 

@@ -8,11 +8,33 @@ export let Zero = {
     y: canvas.height - 270, // Position the Zero lower on the screen
     width: 200,
     height: 200,
-    image: new Image(), // Default X-Wing image
+    image: new Image(), // Default Zero image
 };
 
 Zero.image.src = "../Game/Images/A6M/A6MZero.png";
 Zero.image.onload = () => console.log("Zero image loaded!");
+
+
+// Engine sound for Zero
+const engineSoundZero = new Audio("../Game/Sound/EngineZero.mp3");
+engineSoundZero.loop = true;
+engineSoundZero.volume = 0.7; // Adjust volume (optional)
+
+// Function to start the engine sound
+export function startEngineSoundZero() {
+    if (engineSoundZero.paused || engineSoundZero.ended) {
+        engineSoundZero.currentTime = 0; // Reset to the beginning
+        engineSoundZero.play().catch((error) => console.error("Error playing engine sound:", error));
+    }
+}
+
+// Function to stop the engine sound
+export function stopEngineSoundZero() {
+    if (!engineSoundZero.paused) {
+        engineSoundZero.pause();
+        engineSoundZero.currentTime = 0; // Reset the sound
+    }
+}
 
 // Function to draw the Zero
 export function drawZero() {

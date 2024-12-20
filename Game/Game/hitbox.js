@@ -6,7 +6,7 @@ import { xwing, xwingBullets } from "./xwing.js";
 import { activeJet } from "./selectJet.js";
 import { gameState } from "./game.js";
 import { addPoints } from "./score.js";
-import { Zero, zeroBullets, zeroSecondaryBullets } from "./Zero.js";
+import { Zero, zeroBullets, zeroSecondaryBullets, stopEngineSoundZero  } from "./Zero.js";
 
 
 // Player lives configuration
@@ -244,6 +244,7 @@ export function reduceLives() {
     lives -= 1; // Decrease lives
     console.log(`Collision detected! Lives remaining: ${lives}`);
     if (lives === 0) {
+      stopEngineSoundZero(); // Stop the engine sound when the game ends
       gameOver(); // Handle game over logic when lives reach 0
     }
   }
@@ -252,6 +253,7 @@ export function reduceLives() {
 // Function to handle game over
 function gameOver() {
   console.log("Game Over!");
+  stopEngineSoundZero(); // Stop the engine sound when the game ends
   // Stop the game animation
   gameState.paused = true;
   cancelAnimationFrame(gameState.animationFrameID);

@@ -1,5 +1,5 @@
-import { player } from "./jet.js"; // F18 configuration
-import { xwing } from "./xwing.js"; // X-Wing configuration
+import { player, startEngineSoundFA18, stopEngineSoundFA18 } from "./jet.js"; // F18 configuration
+import { xwing , startEngineSoundXwing, stopEngineSoundXwing} from "./xwing.js"; // X-Wing configuration
 import { startGame } from "./game.js"; // To start the game
 import {Zero, startEngineSoundZero, stopEngineSoundZero } from "./Zero.js"; //Zero configuration
 
@@ -10,15 +10,25 @@ export function selectJet(jetType) {
     if (jetType === "F18") {
         activeJet = player;
         console.log("F18 selected");
-        stopEngineSoundZero(); // Stop Zero's engine sound if it was playing
+        stopEngineSoundZero();// Stop Zero's engine sound if it was playing
+        startEngineSoundFA18();
+        stopEngineSoundXwing();
+
     } else if (jetType === "X-Wing") {
         activeJet = xwing;
         console.log("X-Wing selected");
         stopEngineSoundZero(); // Stop Zero's engine sound if it was playing
+        stopEngineSoundFA18();
+        startEngineSoundXwing();
+
+
     } else if (jetType==="Zero") {
         activeJet = Zero;
         console.log("Zero selected");
         startEngineSoundZero(); // Start Zero's engine sound
+        stopEngineSoundFA18();
+        stopEngineSoundXwing();
+
     }
 
     console.log("Active jet:", activeJet);

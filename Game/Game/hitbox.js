@@ -1,8 +1,7 @@
 import { canvas, ctx } from "./constant.js";
-import { player } from "./jet.js";
+import { player, bullets, stopEngineSoundFA18 } from "./jet.js";
 import { meteors_array } from "./meteors.js";
-import { bullets } from "./jet.js"; // Import bullets array from jet.js
-import { xwing, xwingBullets } from "./xwing.js";
+import { xwing, xwingBullets, stopEngineSoundXwing } from "./xwing.js";
 import { activeJet } from "./selectJet.js";
 import { gameState } from "./game.js";
 import { addPoints } from "./score.js";
@@ -245,6 +244,8 @@ export function reduceLives() {
     console.log(`Collision detected! Lives remaining: ${lives}`);
     if (lives === 0) {
       stopEngineSoundZero(); // Stop the engine sound when the game ends
+      stopEngineSoundFA18();
+      stopEngineSoundXwing();
       gameOver(); // Handle game over logic when lives reach 0
     }
   }
@@ -254,6 +255,8 @@ export function reduceLives() {
 function gameOver() {
   console.log("Game Over!");
   stopEngineSoundZero(); // Stop the engine sound when the game ends
+  stopEngineSoundFA18();
+  stopEngineSoundXwing();
   // Stop the game animation
   gameState.paused = true;
   cancelAnimationFrame(gameState.animationFrameID);

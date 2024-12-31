@@ -22,6 +22,26 @@ player.image.onload = function () {
   console.log("Aircraft image loaded !");
 };
 
+// Engine sound for F-18
+const engineSoundFA18 = new Audio("../Game/Sound/F18Engine.mp3");
+engineSoundFA18.loop = true; // Loop the sound
+engineSoundFA18.volume = 1; // Adjust volume if necessary
+
+// Function to start the engine sound
+export function startEngineSoundFA18() {
+  if (engineSoundFA18.paused || engineSoundFA18.ended) {
+    engineSoundFA18.currentTime = 0; // Reset to the beginning
+    engineSoundFA18.play().catch((error) => console.error("Error playing engine sound:", error));
+  }
+}
+
+// Function to stop the engine sound
+export function stopEngineSoundFA18() {
+  if (!engineSoundFA18.paused) {
+    engineSoundFA18.pause();
+    engineSoundFA18.currentTime = 0; // Reset the sound
+  }
+}
 // Fonction pour dessiner l'avion
 export function drawPlayer() {
   // Adjust the source rectangle to cut the tip of the jet
@@ -76,7 +96,7 @@ function fireBullet() {
 
 export function updateBullets() {
   bullets.forEach((bullet, index) => {
-    bullet.y -= 15; // Déplacement du projectile
+    bullet.y -= 25; // Déplacement du projectile
 
     // Traînée lumineuse
     ctx.fillStyle = "rgba(255, 165, 0, 0.5)";

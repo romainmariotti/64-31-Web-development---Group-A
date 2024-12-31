@@ -18,7 +18,7 @@ Zero.image.onload = () => console.log("Zero image loaded!");
 // Engine sound for Zero
 const engineSoundZero = new Audio("../Game/Sound/EngineZero.mp3");
 engineSoundZero.loop = true;
-engineSoundZero.volume = 0.7; // Adjust volume (optional)
+engineSoundZero.volume = 1; // Adjust volume (optional)
 
 // Function to start the engine sound
 export function startEngineSoundZero() {

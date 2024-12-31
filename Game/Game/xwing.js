@@ -14,6 +14,26 @@ export let xwing = {
 
 xwing.image.src = "../Game/Images/xwing/X-Wing_Top.png";
 xwing.image.onload = () => console.log("X-Wing image loaded!");
+// Engine sound for X-Wing
+const engineSoundXwing = new Audio("../Game/Sound/xwingEngine.mp3");
+engineSoundXwing.loop = true; // Loop the sound
+engineSoundXwing.volume = 1; // Adjust volume if necessary
+
+// Function to start the engine sound
+export function startEngineSoundXwing() {
+    if (engineSoundXwing.paused || engineSoundXwing.ended) {
+        engineSoundXwing.currentTime = 0; // Reset to the beginning
+        engineSoundXwing.play().catch((error) => console.error("Error playing engine sound:", error));
+    }
+}
+
+// Function to stop the engine sound
+export function stopEngineSoundXwing() {
+    if (!engineSoundXwing.paused) {
+        engineSoundXwing.pause();
+        engineSoundXwing.currentTime = 0; // Reset the sound
+    }
+}
 
 // Function to draw the X-Wing
 export function drawXwing() {
@@ -29,7 +49,7 @@ export let xwingBullets = [];
 const xwingBulletConfig = {
     width: 4,
     height: 20,
-    speed: 15, // Speed of the X-Wing bullets
+    speed: 25, // Speed of the X-Wing bullets
     color: "rgba(255, 0, 0, 1)", // Bright red for the bullet body
     trailColor: "rgba(139, 0, 0, 0.5)", // Dark red for the bullet trail
 };

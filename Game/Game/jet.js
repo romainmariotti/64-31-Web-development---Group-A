@@ -15,7 +15,7 @@ export let player = {
   image: new Image(),
 };
 
-// Chargement de l'image de l'avion
+
 // ...existing code...
 player.image.src = "../Game/Images/Jet/FA18transp.png";
 player.image.onload = function () {
@@ -121,8 +121,9 @@ export function updateBullets() {
   });
 }
 
-const shootingSound = new Audio("../Game/Sound/Blaster.mp3");
+const shootingSound = new Audio("../Game/Sound/F18shooting.mp3");
 shootingSound.loop = true;
+shootingSound.volume = 0.1; // Set default volume to 50%
 
 
 export function startShootingSound() {

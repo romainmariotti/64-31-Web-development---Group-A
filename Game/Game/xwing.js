@@ -1,7 +1,6 @@
 import { canvas, ctx } from "./constant.js";
 import { activeJet } from "./selectJet.js";
 import { gameState } from "./game.js";
-import { startShootingSound, stopShootingSound } from "./jet.js";
 
 // X-Wing Configuration
 export let xwing = {
@@ -17,8 +16,43 @@ xwing.image.onload = () => console.log("X-Wing image loaded!");
 // Engine sound for X-Wing
 const engineSoundXwing = new Audio("../Game/Sound/xwingEngine.mp3");
 engineSoundXwing.loop = true; // Loop the sound
-engineSoundXwing.volume = 1; // Adjust volume if necessary
+engineSoundXwing.volume = 0.1; // Adjust volume if necessary
 
+// Initialize the shooting sound
+const shootingSound = new Audio("../Game/Sound/Blaster.mp3");
+shootingSound.loop = true; // Allow looping for continuous shooting
+shootingSound.volume = 0.1; // Adjust the volume
+
+shootingSound.onloadeddata = () => {
+    console.log("Blaster sound loaded successfully!");
+};
+shootingSound.onerror = () => {
+    console.error("Failed to load Blaster sound!");
+};
+
+export function startShootingXwing() {
+    if (!xwingShootingInterval) {
+        xwingShootingInterval = setInterval(() => {
+            fireXwingBullet();
+        }, 100); // Interval between shots in milliseconds
+    }
+
+    // Play the shooting sound
+    shootingSound.currentTime = 0; // Reset sound to the beginning
+    shootingSound.play().catch((error) => console.error("Error playing shooting sound:", error));
+}
+export function stopShootingXwing() {
+    if (xwingShootingInterval) {
+        clearInterval(xwingShootingInterval);
+        xwingShootingInterval = null;
+    }
+
+    // Stop the shooting sound
+    if (!shootingSound.paused) {
+        shootingSound.pause();
+        shootingSound.currentTime = 0; // Reset sound to the beginning
+    }
+}
 // Function to start the engine sound
 export function startEngineSoundXwing() {
     if (engineSoundXwing.paused || engineSoundXwing.ended) {
@@ -48,7 +82,7 @@ export let xwingBullets = [];
 // Define the dimensions and behavior of X-Wing projectiles
 const xwingBulletConfig = {
     width: 4,
-    height: 20,
+    height: 50,
     speed: 25, // Speed of the X-Wing bullets
     color: "rgba(255, 0, 0, 1)", // Bright red for the bullet body
     trailColor: "rgba(139, 0, 0, 0.5)", // Dark red for the bullet trail
@@ -106,13 +140,13 @@ let xwingKeys = {};
 window.addEventListener("keydown", (e) => {
     xwingKeys[e.key] = true;
     if (e.key === " " && gameState.game_started === true && gameState.paused === false && activeJet === xwing) {
-        startShootingSound();
+        startShootingXwing(); // Corrected function call
     }
 });
 window.addEventListener("keyup", (e) => {
     xwingKeys[e.key] = false;
     if (e.key === " " && gameState.game_started === true && gameState.paused === false && activeJet === xwing) {
-        stopShootingSound();
+        stopShootingXwing(); // Corrected function call
     }
 });
 // Handle Mouse Down (Start Shooting)

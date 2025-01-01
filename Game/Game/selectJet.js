@@ -65,7 +65,7 @@ export function showJetSelectionMenu() {
 
     // F18 Button
     const f18Button = document.createElement("button");
-    f18Button.innerText = "F18 Blaster";
+    f18Button.innerText = "FA18 Superhornet ";
     f18Button.style.margin = "10px";
     f18Button.onclick = function () {
         selectJet("F18");

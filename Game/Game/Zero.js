@@ -105,9 +105,9 @@ export function updateZeroBullets() {
 // Zero Actions (Keyboard and Mouse)
 let zeroKeys = {};
 
-const zeroShootingSound = new Audio("../Game/Sound/20Milimeters.mp3");
+const zeroShootingSound = new Audio("../Game/Sound/20mmZero.mp3");
 zeroShootingSound.loop = true;
-zeroShootingSound.onerror = () => console.error("Failed to load 20Milimeters.mp3");
+zeroShootingSound.onerror = () => console.error("Failed to load 20mmZero.mp3");
 
 export function startZeroShootingSound() {
     if (zeroShootingSound.paused || zeroShootingSound.ended) {

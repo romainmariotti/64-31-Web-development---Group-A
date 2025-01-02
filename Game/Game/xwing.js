@@ -162,7 +162,7 @@ document.addEventListener("mousedown", (event) => {
             }, 100);
         }
 
-        startShootingSound();
+        startShootingXwing();
     }
 })
 document.addEventListener("mouseup", (event) => {
@@ -174,7 +174,7 @@ document.addEventListener("mouseup", (event) => {
             xwingShootingInterval = null;
         }
 
-        stopShootingSound();
+        stopShootingXwing();
     }
 });
 

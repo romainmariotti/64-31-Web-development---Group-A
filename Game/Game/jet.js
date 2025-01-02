@@ -123,7 +123,7 @@ export function updateBullets() {
 
 const shootingSound = new Audio("../Game/Sound/F18shooting.mp3");
 shootingSound.loop = true;
-shootingSound.volume = 0.1; // Set default volume to 50%
+shootingSound.volume = 0.3;
 
 
 export function startShootingSound() {

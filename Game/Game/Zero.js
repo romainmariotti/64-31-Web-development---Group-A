@@ -18,7 +18,7 @@ Zero.image.onload = () => console.log("Zero image loaded!");
 // Engine sound for Zero
 const engineSoundZero = new Audio("../Game/Sound/EngineZero.mp3");
 engineSoundZero.loop = true;
-engineSoundZero.volume = 1; // Adjust volume (optional)
+engineSoundZero.volume = 0.2; // Adjust volume (optional)
 
 // Function to start the engine sound
 export function startEngineSoundZero() {
@@ -107,6 +107,7 @@ let zeroKeys = {};
 
 const zeroShootingSound = new Audio("../Game/Sound/20mmZero.mp3");
 zeroShootingSound.loop = true;
+zeroShootingSound.volume = 0.4;
 zeroShootingSound.onerror = () => console.error("Failed to load 20mmZero.mp3");
 
 export function startZeroShootingSound() {
@@ -185,7 +186,8 @@ zeroShootingSound.onpause = () => console.log("Zero shooting sound is paused");
 
 // Zero Secondary Bullets Configuration
 const secondaryShootingSound = new Audio("../Game/Sound/7.7mm.mp3");
-secondaryShootingSound.loop = false; // No looping, as it's a single-shot sound
+secondaryShootingSound.loop = false;
+secondaryShootingSound.volume = 0.3;
 secondaryShootingSound.onerror = () => console.error("Failed to load SecondaryFire.mp3");
 
 export let zeroSecondaryBullets = [];

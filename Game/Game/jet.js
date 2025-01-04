@@ -76,18 +76,18 @@ let canShoot = true;
 
 function fireBullet() {
   if (canShoot) {
-    const noseX = player.x + player.width / 2 + 4; // Aligne avec le nez de l'avion
-    const noseY = player.y + 100; // Aligne avec le point rouge
+    const noseX = player.x + player.width / 2 + 4;
+    const noseY = player.y + 100;
     bullets.push({
-      x: noseX - 1, // Décale légèrement pour le centrer
+      x: noseX - 1,
       y: noseY,
-      width: 3, // Largeur plus fine
-      height: 30, // Hauteur plus longue
+      width: 3,
+      height: 30,
     });
     console.log("Bullet fired from:", { x: noseX, y: noseY });
     canShoot = false;
     setTimeout(() => {
-      canShoot = true; // Réautorise à tirer après 200ms
+      canShoot = true;
     }, 100);
   }
 
@@ -96,7 +96,7 @@ function fireBullet() {
 
 export function updateBullets() {
   bullets.forEach((bullet, index) => {
-    bullet.y -= 25; // Déplacement du projectile
+    bullet.y -= 25;
 
     // Traînée lumineuse
     ctx.fillStyle = "rgba(255, 165, 0, 0.5)";

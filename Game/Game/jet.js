@@ -8,10 +8,10 @@ import { gameState } from "./game.js";
 
 // Configuration de l'avion
 export let player = {
-  x: canvas.width / 2 - 187.5, // Position initiale centrée horizontalement
-  y: canvas.height - 300, // Ajuste pour positionner l'avion plus bas
-  width: 450, // Largeur (25% plus petit)
-  height: 375, // Hauteur (25% plus petit)
+  x: canvas.width / 2 - 187.5,
+  y: canvas.height - 300,
+  width: 450,
+  height: 375,
   image: new Image(),
 };
 
@@ -42,7 +42,7 @@ export function stopEngineSoundFA18() {
     engineSoundFA18.currentTime = 0; // Reset the sound
   }
 }
-// Fonction pour dessiner l'avion
+
 export function drawPlayer() {
   // Adjust the source rectangle to cut the tip of the jet
   const sourceX = 100; // Adjust this value to cut more or less of the tip

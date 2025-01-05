@@ -6,7 +6,7 @@ import { activeJet } from "./selectJet.js";
 import { gameState } from "./game.js";
 import {addPoints, score} from "./score.js";
 import { Zero, zeroBullets, zeroSecondaryBullets, stopEngineSoundZero  } from "./Zero.js";
-import {storeScore} from "./leaderboard.js";
+import {displayLeaderboard, storeScore} from "./leaderboard.js";
 
 
 // Player lives configuration
@@ -265,37 +265,6 @@ function gameOver() {
   // Store the score (retrieved from score.js)
   storeScore(score); // Use the score from score.js to store it in leaderboard
 
-  // Display Game Over screen
-  const gameOverScreen = document.createElement("div");
-  gameOverScreen.id = "game-over-screen";
-  gameOverScreen.style.position = "fixed";
-  gameOverScreen.style.top = "0";
-  gameOverScreen.style.left = "0";
-  gameOverScreen.style.width = "100%";
-  gameOverScreen.style.height = "100%";
-  gameOverScreen.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
-  gameOverScreen.style.display = "flex";
-  gameOverScreen.style.flexDirection = "column";
-  gameOverScreen.style.alignItems = "center";
-  gameOverScreen.style.justifyContent = "center";
-  gameOverScreen.style.color = "white";
-  gameOverScreen.style.zIndex = "1000";
-
-  const message = document.createElement("h1");
-  message.innerText = "Game Over";
-  gameOverScreen.appendChild(message);
-
-  const restartButton = document.createElement("button");
-  restartButton.innerText = "Restart Game";
-  restartButton.style.padding = "10px 20px";
-  restartButton.style.marginTop = "20px";
-  restartButton.style.fontSize = "1.2em";
-  restartButton.style.cursor = "pointer";
-
-  restartButton.onclick = function () {
-    window.location.reload(); // Reload the page to restart the game
-  };
-
-  gameOverScreen.appendChild(restartButton);
-  document.body.appendChild(gameOverScreen);
+  //Display the leaderboard screen
+  displayLeaderboard(); // Show leaderboard after the game over screen
 }

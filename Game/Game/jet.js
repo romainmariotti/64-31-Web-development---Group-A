@@ -2,8 +2,6 @@ import { canvas, ctx } from "./constant.js";
 import { activeJet } from "./selectJet.js";
 import { gameState } from "./game.js";
 
-
-
 // Jet configuration
 export let player = {
   x: canvas.width / 2 - 187.5, // Initial x position
@@ -13,7 +11,6 @@ export let player = {
   image: new Image(),
 };
 
-
 // FA-18 image
 player.image.src = "../Game/Images/Jet/FA18transp.png";
 player.image.onload = function () {
@@ -21,7 +18,7 @@ player.image.onload = function () {
 };
 
 // Engine sound for F-18
-const engineSoundFA18 = new Audio("../Game/Sound/F18Engine.mp3");
+export const engineSoundFA18 = new Audio("../Game/Sound/F18Engine.mp3");
 engineSoundFA18.loop = true; // Loop the sound
 engineSoundFA18.volume = 1; // Adjust volume if necessary
 
@@ -29,7 +26,9 @@ engineSoundFA18.volume = 1; // Adjust volume if necessary
 export function startEngineSoundFA18() {
   if (engineSoundFA18.paused || engineSoundFA18.ended) {
     engineSoundFA18.currentTime = 0; // Reset to the beginning
-    engineSoundFA18.play().catch((error) => console.error("Error playing engine sound:", error));
+    engineSoundFA18
+      .play()
+      .catch((error) => console.error("Error playing engine sound:", error));
   }
 }
 
@@ -49,23 +48,21 @@ export function drawPlayer() {
   const sourceHeight = player.image.height;
 
   ctx.drawImage(
-      player.image,
-      sourceX,
-      sourceY,
-      sourceWidth,
-      sourceHeight, // Source rectangle
-      player.x,
-      player.y,
-      player.width,
-      player.height // Destination rectangle
+    player.image,
+    sourceX,
+    sourceY,
+    sourceWidth,
+    sourceHeight, // Source rectangle
+    player.x,
+    player.y,
+    player.width,
+    player.height // Destination rectangle
   );
-
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Bullets
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 export let bullets = [];
 
@@ -104,10 +101,10 @@ export function updateBullets() {
 
     //Gradient for the rectangles (bullets)
     const gradient = ctx.createLinearGradient(
-        bullet.x,
-        bullet.y,
-        bullet.x,
-        bullet.y + bullet.height
+      bullet.x,
+      bullet.y,
+      bullet.x,
+      bullet.y + bullet.height
     );
     gradient.addColorStop(0, "yellow");
     gradient.addColorStop(0.5, "orange");
@@ -121,25 +118,24 @@ export function updateBullets() {
   });
 }
 
-const shootingSound = new Audio("../Game/Sound/F18shooting.mp3");
-shootingSound.loop = true;
-shootingSound.volume = 0.3;
+export const shootingSoundFA18 = new Audio("../Game/Sound/F18shooting.mp3");
+shootingSoundFA18.loop = true;
+shootingSoundFA18.volume = 0.3;
 
-
-export function startShootingSound() {
-  if (shootingSound.paused || shootingSound.ended) {
-    shootingSound.currentTime = 0; // Reset to the beginning
-    shootingSound.play().catch((error) =>
-        console.error("Error playing shooting sound:", error)
-    );
+export function startShootingSoundFA18() {
+  if (shootingSoundFA18.paused || shootingSoundFA18.ended) {
+    shootingSoundFA18.currentTime = 0; // Reset to the beginning
+    shootingSoundFA18
+      .play()
+      .catch((error) => console.error("Error playing shooting sound:", error));
   }
 }
 
 // Function to stop the shooting sound
-export function stopShootingSound() {
-  if (!shootingSound.paused) {
-    shootingSound.pause();
-    shootingSound.currentTime = 0; // Reset the sound
+export function stopShootingSoundFA18() {
+  if (!shootingSoundFA18.paused) {
+    shootingSoundFA18.pause();
+    shootingSoundFA18.currentTime = 0; // Reset the sound
   }
 }
 
@@ -150,8 +146,13 @@ let mouseClick = false; // New variable to track mouse click state
 window.addEventListener("keydown", (e) => {
   keys[e.key] = true;
 
-  if (e.key === " " && gameState.game_started === true && gameState.paused === false && activeJet === player) {
-    startShootingSound();
+  if (
+    e.key === " " &&
+    gameState.game_started === true &&
+    gameState.paused === false &&
+    activeJet === player
+  ) {
+    startShootingSoundFA18();
     fireBullet();
   }
 });
@@ -160,24 +161,39 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => {
   keys[e.key] = false;
 
-  if (e.key === " " && gameState.game_started === true && gameState.paused === false && activeJet === player) {
-    stopShootingSound();
+  if (
+    e.key === " " &&
+    gameState.game_started === true &&
+    gameState.paused === false &&
+    activeJet === player
+  ) {
+    stopShootingSoundFA18();
   }
 });
 
 // Add an event listener for mouse management
 window.addEventListener("mousedown", (event) => {
-  if (event.button === 0 && gameState.game_started === true && gameState.paused === false && activeJet === player) {
+  if (
+    event.button === 0 &&
+    gameState.game_started === true &&
+    gameState.paused === false &&
+    activeJet === player
+  ) {
     mouseClick = true;
-    startShootingSound();
+    startShootingSoundFA18();
     fireBullet();
   }
 });
 
 window.addEventListener("mouseup", (event) => {
-  if (event.button === 0 && gameState.game_started === true && gameState.paused === false && activeJet === player) {
+  if (
+    event.button === 0 &&
+    gameState.game_started === true &&
+    gameState.paused === false &&
+    activeJet === player
+  ) {
     mouseClick = false;
-    stopShootingSound();
+    stopShootingSoundFA18();
   }
 });
 
@@ -189,7 +205,10 @@ export function jetActions() {
   }
 
   // Right movement (ArrowRight or D)
-  if ((keys["ArrowRight"] || keys["d"]) && player.x + player.width / 2 < canvas.width) {
+  if (
+    (keys["ArrowRight"] || keys["d"]) &&
+    player.x + player.width / 2 < canvas.width
+  ) {
     player.x += 20; // Jet goes right
   }
 
@@ -199,15 +218,22 @@ export function jetActions() {
   }
 
   // Down movement (ArrowDown or S)
-  if ((keys["ArrowDown"] || keys["s"]) && player.y + player.height / 1.5 < canvas.height) {
+  if (
+    (keys["ArrowDown"] || keys["s"]) &&
+    player.y + player.height / 1.5 < canvas.height
+  ) {
     player.y += 20; // Jet goes down
   }
 
   // Fire bullets (Space bar)
   if (keys[" "] || mouseClick) {
     fireBullet();
-    if (gameState.game_started === true && gameState.paused === false && activeJet === player) {
-      startShootingSound();
+    if (
+      gameState.game_started === true &&
+      gameState.paused === false &&
+      activeJet === player
+    ) {
+      startShootingSoundFA18();
     }
   }
 }

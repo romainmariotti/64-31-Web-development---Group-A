@@ -20,22 +20,19 @@
     <div id="start-screen">
       <h1>Jet Fighter Game</h1>
       <button id="start-button">Start Game</button>
-      <button id="options-button">Options</button>
       <button id="rules-button">Rules</button>
     </div>
     <script type="module">
       import { startGame } from "../Game/game.js";
-      import { showOptionMenu, showRulesMenu } from "../Game/menus.js";
       import { showJetSelectionMenu } from "../Game/selectJet.js";
+      import { showRulesMenu } from "../Game/menus.js";
       document
-              .getElementById("start-button")
-              .addEventListener("click", showJetSelectionMenu);
+        .getElementById("start-button")
+        .addEventListener("click", showJetSelectionMenu);
       document
-              .getElementById("options-button")
-              .addEventListener("click", showOptionMenu);
-      document
-              .getElementById("rules-button")
-              .addEventListener("click", showRulesMenu);
+        .getElementById("rules-button")
+        .addEventListener("click", showRulesMenu);
     </script>
   </body>
 </html>
+b

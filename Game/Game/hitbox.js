@@ -4,8 +4,9 @@ import { meteors_array } from "./meteors.js";
 import { xwing, xwingBullets, stopEngineSoundXwing } from "./xwing.js";
 import { activeJet } from "./selectJet.js";
 import { gameState } from "./game.js";
-import { addPoints } from "./score.js";
+import {addPoints, score} from "./score.js";
 import { Zero, zeroBullets, zeroSecondaryBullets, stopEngineSoundZero  } from "./Zero.js";
+import {storeScore} from "./leaderboard.js";
 
 
 // Player lives configuration
@@ -260,6 +261,9 @@ function gameOver() {
   // Stop the game animation
   gameState.paused = true;
   cancelAnimationFrame(gameState.animationFrameID);
+
+  // Store the score (retrieved from score.js)
+  storeScore(score); // Use the score from score.js to store it in leaderboard
 
   // Display Game Over screen
   const gameOverScreen = document.createElement("div");

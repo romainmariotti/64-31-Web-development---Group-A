@@ -38,6 +38,17 @@ export function selectJet(jetType) {
 // Function to show the jet selection menu
 export function showJetSelectionMenu() {
 
+    // Ask the user for their name and store it in localStorage
+    let playerName = prompt("Enter your name:");
+    if (playerName && playerName.trim() !== "") {
+        localStorage.setItem("playerName", playerName.trim());
+    }
+    else {
+        alert("Name cannot be empty. Please enter a valid name.");
+        return; // Exit the function if the name is empty
+    }
+
+
     // Hide the start screen buttons
     const startScreen = document.getElementById("start-screen");
     if (startScreen) {

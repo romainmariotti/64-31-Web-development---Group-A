@@ -263,8 +263,6 @@ function gameOver() {
   cancelAnimationFrame(gameState.animationFrameID);
 
   // Store the score (retrieved from score.js)
-  storeUserData(score); // Use the score from score.js to store it in leaderboard
+  storeUserData(score, displayLeaderboard); // Use the score from score.js to store it in leaderboard
 
-  //Display the leaderboard screen
-  displayLeaderboard(); // Show leaderboard after the game over screen
 }

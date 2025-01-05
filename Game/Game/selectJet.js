@@ -154,7 +154,7 @@ export function showJetSelectionMenu() {
   };
 
   dropZone.ondragover = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default behavior to allow drop
     dropZone.style.borderColor = "green";
   };
 

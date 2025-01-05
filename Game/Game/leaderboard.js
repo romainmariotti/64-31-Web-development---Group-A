@@ -1,28 +1,113 @@
-// leaderboard.js
 
-// Function to store the player's name, score and image in local storage
-export function storeUserData(score) {
+// Function to store the player's name, score and image in local storage. It also gets the user location with streetmap API, and stores it in localStorage
+export async function storeUserData(score, callback) {
     const playerName = localStorage.getItem("playerName");
     const playerImage = localStorage.getItem("playerImage");
 
-    // If the player's name is stored, proceed to store the score
     if (playerName && playerImage) {
         let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
 
-        // Store the player's score and name
-        const playerData = { name: playerName, score: score, image: playerImage };
-        leaderboard.push(playerData);
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
 
-        // Sort leaderboard by score in descending order
-        leaderboard.sort((a, b) => b.score - a.score);
+                    try {
+                        // Use OpenStreetMap Nominatim API for reverse geocoding
+                        const response = await fetch(
+                            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                        );
 
-        // Store the updated leaderboard back to local storage
-        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+                        if (!response.ok) {
+                            throw new Error("Failed to fetch city name");
+                        }
 
-        console.log("Score stored:", playerData);
+                        const data = await response.json();
+                        const city =
+                            data.address?.city ||
+                            data.address?.town ||
+                            data.address?.village ||
+                            "Unknown City";
+
+                        // Store the player's data, including city
+                        const playerData = {
+                            name: playerName,
+                            score: score,
+                            image: playerImage,
+                            location: city,
+                        };
+
+                        leaderboard.push(playerData);
+
+                        // Sort the leaderboard by score in descending order
+                        leaderboard.sort((a, b) => b.score - a.score);
+
+                        // Save updated leaderboard to localStorage
+                        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+                        console.log("Score stored with city:", playerData);
+
+                        // Call the callback (e.g., to display the updated leaderboard)
+                        if (callback) callback();
+                    } catch (error) {
+                        console.error("Error retrieving city name:", error);
+
+                        // Store player data without city
+                        const playerData = {
+                            name: playerName,
+                            score: score,
+                            image: playerImage,
+                            location: "Unknown City",
+                        };
+
+                        leaderboard.push(playerData);
+                        leaderboard.sort((a, b) => b.score - a.score);
+                        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+                        // Call the callback (e.g., to display the updated leaderboard)
+                        if (callback) callback();
+                    }
+                },
+                (error) => {
+                    console.error("Geolocation error:", error);
+
+                    // Store player data without city
+                    const playerData = {
+                        name: playerName,
+                        score: score,
+                        image: playerImage,
+                        location: "Unknown City",
+                    };
+
+                    leaderboard.push(playerData);
+                    leaderboard.sort((a, b) => b.score - a.score);
+                    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+                    // Call the callback (e.g., to display the updated leaderboard)
+                    if (callback) callback();
+                }
+            );
+        }
+        else {
+            console.error("Geolocation is not supported by this browser.");
+
+            // Store player data without city
+            const playerData = {
+                name: playerName,
+                score: score,
+                image: playerImage,
+                location: "Unknown City",
+            };
+
+            leaderboard.push(playerData);
+            leaderboard.sort((a, b) => b.score - a.score);
+            localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+            // Call the callback (e.g., to display the updated leaderboard)
+            if (callback) callback();
+        }
     }
     else {
-        console.error("No player name found in local storage.");
+        console.error("No player name or image found in localStorage.");
     }
 }
 
@@ -84,7 +169,7 @@ export function displayLeaderboard() {
 
         // Player details (name and score)
         const playerDetails = document.createElement("span");
-        playerDetails.innerText = `${index + 1}. ${entry.name}: ${entry.score}`;
+        playerDetails.innerText = `${index + 1}. ${entry.name} (${entry.location}) : ${entry.score}`;
         playerDetails.style.fontSize = "1.2em";
 
         listItem.appendChild(playerImage);

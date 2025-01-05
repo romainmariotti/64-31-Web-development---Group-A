@@ -32,14 +32,6 @@ export function selectJet(jetType) {
 
 // Function to show the jet selection menu
 export function showJetSelectionMenu() {
-  // Ask the user for their name and store it in localStorage
-  let playerName = prompt("Enter your name:");
-  if (playerName && playerName.trim() !== "") {
-    localStorage.setItem("playerName", playerName.trim());
-  } else {
-    alert("Name cannot be empty. Please enter a valid name.");
-    return; // Exit the function if the name is empty
-  }
 
   // Hide the start screen buttons
   const startScreen = document.getElementById("start-screen");
@@ -66,14 +58,26 @@ export function showJetSelectionMenu() {
   title.style.color = "orangered";
   selectionScreen.appendChild(title);
 
+
+  // Function to validate the player name and validate the jet selection
+  function validateAndProceed(jetType) {
+    const playerName = input.value.trim();
+    if (playerName) {
+      localStorage.setItem("playerName", playerName); // Store the player name
+      selectJet(jetType); // Select the jet
+      selectionScreen.remove(); // Remove the selection screen
+      startGame(); // Start the game
+    } else {
+      alert("Name cannot be empty. Please enter a valid name.");
+    }
+  }
+
   // F18 Button
   const f18Button = document.createElement("button");
   f18Button.innerText = "FA18 Superhornet ";
   f18Button.style.margin = "10px";
   f18Button.onclick = function () {
-    selectJet("F18");
-    selectionScreen.remove();
-    startGame();
+    validateAndProceed("F18");
   };
   selectionScreen.appendChild(f18Button);
 
@@ -82,9 +86,7 @@ export function showJetSelectionMenu() {
   xwingButton.innerText = "X-Wing";
   xwingButton.style.margin = "10px";
   xwingButton.onclick = function () {
-    selectJet("X-Wing");
-    selectionScreen.remove();
-    startGame();
+    validateAndProceed("X-Wing");
   };
   selectionScreen.appendChild(xwingButton);
 
@@ -93,11 +95,24 @@ export function showJetSelectionMenu() {
   zeroButton.innerText = "A6M Zero";
   zeroButton.style.margin = "10px";
   zeroButton.onclick = function () {
-    selectJet("Zero");
-    selectionScreen.remove();
-    startGame();
+    validateAndProceed("Zero");
   };
   selectionScreen.appendChild(zeroButton);
+
+
+  // Input field for player name
+  const form = document.createElement("div");
+  const label = document.createElement("label");
+  label.htmlFor = "player-name";
+  label.innerText = "Enter Your Name:";
+  form.appendChild(label);
+  const input = document.createElement("input");
+  input.id = "player-name";
+  input.name = "playerName";
+  input.type = "text";
+  input.required = true; // Adds HTML validation
+  form.appendChild(input);
+  selectionScreen.appendChild(form);
 
   document.body.appendChild(selectionScreen);
 }

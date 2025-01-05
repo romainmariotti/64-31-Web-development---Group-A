@@ -4,19 +4,17 @@ import { gameState } from "./game.js";
 
 
 
-// Jet (player) configuration
-
-// Configuration de l'avion
+// Jet configuration
 export let player = {
-  x: canvas.width / 2 - 187.5, // Position initiale centrée horizontalement
-  y: canvas.height - 300, // Ajuste pour positionner l'avion plus bas
-  width: 450, // Largeur (25% plus petit)
-  height: 375, // Hauteur (25% plus petit)
+  x: canvas.width / 2 - 187.5, // Initial x position
+  y: canvas.height - 300, // Initial y position
+  width: 450,
+  height: 375,
   image: new Image(),
 };
 
 
-// ...existing code...
+// FA-18 image
 player.image.src = "../Game/Images/Jet/FA18transp.png";
 player.image.onload = function () {
   console.log("Aircraft image loaded !");
@@ -42,7 +40,7 @@ export function stopEngineSoundFA18() {
     engineSoundFA18.currentTime = 0; // Reset the sound
   }
 }
-// Fonction pour dessiner l'avion
+// Function to draw the jet
 export function drawPlayer() {
   // Adjust the source rectangle to cut the tip of the jet
   const sourceX = 100; // Adjust this value to cut more or less of the tip
@@ -63,7 +61,6 @@ export function drawPlayer() {
   );
 
 }
-// ...existing code...
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Bullets
@@ -76,33 +73,36 @@ let canShoot = true;
 
 function fireBullet() {
   if (canShoot) {
-    const noseX = player.x + player.width / 2 + 4; // Aligne avec le nez de l'avion
-    const noseY = player.y + 100; // Aligne avec le point rouge
+    //Get the position of the nose of the plane
+    const noseX = player.x + player.width / 2 + 3;
+    const noseY = player.y + 100;
+    //Add bullet to the bullets[] array with the current coordinates of plane's nose
     bullets.push({
-      x: noseX - 1, // Décale légèrement pour le centrer
+      x: noseX,
       y: noseY,
-      width: 3, // Largeur plus fine
-      height: 30, // Hauteur plus longue
+      width: 3, //Bullet width
+      height: 30, //Bullet height
     });
     console.log("Bullet fired from:", { x: noseX, y: noseY });
     canShoot = false;
+    //Allows to shoot every 100 ms
     setTimeout(() => {
-      canShoot = true; // Réautorise à tirer après 200ms
+      canShoot = true;
     }, 100);
   }
 
   console.log("Player position before firing:", player.x, player.y);
 }
 
+//Iterates over the bullets[] array and creates a rectangle (bullet design) for each element.
 export function updateBullets() {
   bullets.forEach((bullet, index) => {
-    bullet.y -= 25; // Déplacement du projectile
+    bullet.y -= 25; // Bullet movement
 
-    // Traînée lumineuse
     ctx.fillStyle = "rgba(255, 165, 0, 0.5)";
     ctx.fillRect(bullet.x, bullet.y + 10, bullet.width, bullet.height * 1.5);
 
-    // Corps principal
+    //Gradient for the rectangles (bullets)
     const gradient = ctx.createLinearGradient(
         bullet.x,
         bullet.y,

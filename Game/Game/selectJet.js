@@ -62,13 +62,15 @@ export function showJetSelectionMenu() {
   // Function to validate the player name and validate the jet selection
   function validateAndProceed(jetType) {
     const playerName = input.value.trim();
-    if (playerName) {
+    if (playerName && uploadedImage) {
       localStorage.setItem("playerName", playerName); // Store the player name
+      localStorage.setItem("playerImage", uploadedImage);// Store image given by user
       selectJet(jetType); // Select the jet
       selectionScreen.remove(); // Remove the selection screen
       startGame(); // Start the game
-    } else {
-      alert("Name cannot be empty. Please enter a valid name.");
+    }
+    else {
+      alert("Name and image cannot be empty.");
     }
   }
 
@@ -113,6 +115,73 @@ export function showJetSelectionMenu() {
   input.required = true; // Adds HTML validation
   form.appendChild(input);
   selectionScreen.appendChild(form);
+
+
+
+  // Drag-and-drop area for image upload
+  const dropZone = document.createElement("div");
+  dropZone.style.width = "300px";
+  dropZone.style.height = "200px";
+  dropZone.style.border = "2px dashed gray";
+  dropZone.style.marginTop = "20px";
+  dropZone.style.display = "flex";
+  dropZone.style.alignItems = "center";
+  dropZone.style.justifyContent = "center";
+  dropZone.innerText = "Drag and drop your image here or click to upload.";
+  dropZone.style.cursor = "pointer";
+  dropZone.onclick = () => fileInput.click();
+
+
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = "image/*";
+  fileInput.style.display = "none";
+
+
+  let uploadedImage = null;
+  fileInput.onchange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedImage = e.target.result;
+        dropZone.style.backgroundImage = `url(${uploadedImage})`;
+        dropZone.style.backgroundSize = "cover";
+        dropZone.innerText = "";
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  dropZone.ondragover = (e) => {
+    e.preventDefault();
+    dropZone.style.borderColor = "green";
+  };
+
+  dropZone.ondragleave = () => {
+    dropZone.style.borderColor = "gray";
+  };
+
+  dropZone.ondrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedImage = e.target.result;
+        dropZone.style.backgroundImage = `url(${uploadedImage})`;
+        dropZone.style.backgroundSize = "cover";
+        dropZone.innerText = "";
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  selectionScreen.appendChild(dropZone);
+
+
+
+
 
   document.body.appendChild(selectionScreen);
 }

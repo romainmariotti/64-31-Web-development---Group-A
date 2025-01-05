@@ -1,15 +1,16 @@
 // leaderboard.js
 
-// Function to store the player's score in local storage
-export function storeScore(score) {
+// Function to store the player's name, score and image in local storage
+export function storeUserData(score) {
     const playerName = localStorage.getItem("playerName");
+    const playerImage = localStorage.getItem("playerImage");
 
     // If the player's name is stored, proceed to store the score
-    if (playerName) {
+    if (playerName && playerImage) {
         let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
 
         // Store the player's score and name
-        const playerData = { name: playerName, score: score };
+        const playerData = { name: playerName, score: score, image: playerImage };
         leaderboard.push(playerData);
 
         // Sort leaderboard by score in descending order
@@ -19,7 +20,8 @@ export function storeScore(score) {
         localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
 
         console.log("Score stored:", playerData);
-    } else {
+    }
+    else {
         console.error("No player name found in local storage.");
     }
 }
@@ -63,12 +65,33 @@ export function displayLeaderboard() {
     leaderboardList.style.padding = "0";
     leaderboardList.style.marginTop = "20px";
 
-    // Display each player's name and score
+
+    // Display each player's image, name and score
     leaderboard.forEach((entry, index) => {
         const listItem = document.createElement("li");
-        listItem.innerText = `${index + 1}. ${entry.name}: ${entry.score}`;
+        listItem.style.display = "flex";
+        listItem.style.alignItems = "center";
+        listItem.style.marginBottom = "10px";
+
+        // Player image
+        const playerImage = document.createElement("img");
+        playerImage.src = entry.image;
+        playerImage.alt = `${entry.name}'s Image`;
+        playerImage.style.width = "50px";
+        playerImage.style.height = "50px";
+        playerImage.style.borderRadius = "50%";
+        playerImage.style.marginRight = "10px";
+
+        // Player details (name and score)
+        const playerDetails = document.createElement("span");
+        playerDetails.innerText = `${index + 1}. ${entry.name}: ${entry.score}`;
+        playerDetails.style.fontSize = "1.2em";
+
+        listItem.appendChild(playerImage);
+        listItem.appendChild(playerDetails);
         leaderboardList.appendChild(listItem);
     });
+
 
     leaderboardContainer.appendChild(leaderboardList);
 

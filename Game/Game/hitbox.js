@@ -6,7 +6,7 @@ import { activeJet } from "./selectJet.js";
 import { gameState } from "./game.js";
 import {addPoints, score} from "./score.js";
 import { Zero, zeroBullets, zeroSecondaryBullets, stopEngineSoundZero  } from "./Zero.js";
-import {displayLeaderboard, storeScore} from "./leaderboard.js";
+import {displayLeaderboard, storeUserData} from "./leaderboard.js";
 
 
 // Player lives configuration
@@ -263,7 +263,7 @@ function gameOver() {
   cancelAnimationFrame(gameState.animationFrameID);
 
   // Store the score (retrieved from score.js)
-  storeScore(score); // Use the score from score.js to store it in leaderboard
+  storeUserData(score); // Use the score from score.js to store it in leaderboard
 
   //Display the leaderboard screen
   displayLeaderboard(); // Show leaderboard after the game over screen

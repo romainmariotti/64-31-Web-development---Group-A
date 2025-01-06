@@ -26,7 +26,7 @@ function ResultPage({ data }) {
               ref={videoRef}
               controls
               width="600"
-              src="/test.mp4"
+              src="/results.mp4"
               type="video/mp4"
           />
           <div>

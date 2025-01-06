@@ -129,7 +129,7 @@ Top of all pages title and image
 .background_image {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  /* object-fit: cover; Zoom on the image and not stretch*/
+  object-fit: cover; /*  Zoom on the image and not stretch*/
   width: 100%;
   height: 25vh;
 }

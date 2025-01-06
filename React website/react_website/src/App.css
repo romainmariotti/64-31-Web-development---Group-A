@@ -200,3 +200,36 @@ table tr:last-child td:first-child {
 table tr:last-child td:last-child {
   border-bottom-right-radius: 15px;
 }
+
+
+/* Detailed description page */
+
+.skill {
+  margin-bottom: 5%;
+  border: 1px solid;
+  border-radius: 15px;
+  background-color: lightgray;
+}
+
+.skill figcaption {
+  margin-top: 1%;
+  color: black;
+}
+
+.skill h4 {
+  display: inline-block;
+  margin: 3%;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 1%;
+  background-color: rgb(26, 165, 222);
+  color: white;
+}
+
+.skill p {
+  margin-left: 3%;
+}
+
+.skill img {
+  border-radius: 15px;
+}

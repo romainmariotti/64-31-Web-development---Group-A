@@ -12,11 +12,14 @@ function LinksPage({ data }) {
   }
 
   return (
-    <div>
-      <h2>{linksData.title.rendered}</h2>
-      <div dangerouslySetInnerHTML={{ __html: linksData.content.rendered }} />
-      <button onClick={openGame} className="playGame"></button>
-    </div>
+      <div>
+          <h2>{linksData.title.rendered}</h2>
+          <button onClick={openGame} className="playGame">Play Jet fighter</button>
+          <div className={"linkFooter"}>
+              <div dangerouslySetInnerHTML={{__html: linksData.content.rendered}}/>
+          </div>
+
+      </div>
   );
 }
 

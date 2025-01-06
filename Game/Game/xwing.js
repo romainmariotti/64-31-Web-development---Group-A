@@ -174,7 +174,7 @@ window.addEventListener("keyup", (e) => {
 });
 // Handle Mouse Down (Start Shooting)
 document.addEventListener("mousedown", (event) => {
-  if (event.button === 0 && activeJet === xwing) {
+  if (event.button === 0 && activeJet === xwing && gameState.paused === false) {
     isShootingXwing = true;
 
     if (!xwingShootingInterval) {

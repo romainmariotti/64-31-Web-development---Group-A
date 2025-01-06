@@ -17,24 +17,26 @@ function ResultPage({ data }) {
   };
 
   return (
-    <div>
-      <h2>{resultData.title.rendered}</h2>
-      <div dangerouslySetInnerHTML={{ __html: resultData.content.rendered }} />
-
-      {/* Video Section */}
       <div>
-        <video
-          ref={videoRef}
-          controls
-          width="600"
-          src="/test.mp4"
-          type="video/mp4"
-        />
-        <div>
-          <button onClick={restartVideo}>Restart video</button>
+        <h2>{resultData.title.rendered}</h2>
+
+        {/* Video Section */}
+        <div className={"video"}>
+          <video
+              ref={videoRef}
+              controls
+              width="600"
+              src="/test.mp4"
+              type="video/mp4"
+          />
+          <div>
+            <button onClick={restartVideo}>Restart video</button>
+          </div>
         </div>
+
+        <div dangerouslySetInnerHTML={{__html: resultData.content.rendered}}/>
+
       </div>
-    </div>
   );
 }
 

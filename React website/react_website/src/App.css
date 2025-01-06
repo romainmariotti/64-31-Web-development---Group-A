@@ -108,6 +108,7 @@ Introduction page left part
 
 .container img {
   margin-left: 0;
+  border-radius: 15px;
 }
 
 .container {
@@ -146,7 +147,7 @@ Footer
 
 .wp-block-group.alignfull.has-background-color {
   background-color: rgb(189, 189, 189);
-  width: 99.8vw; /* adjust thsi value to fix bottom right roudned corner issue (lower value)  */
+  width: 99vw; /* adjust thsi value to fix bottom right roudned corner issue (lower value)  */
   margin-left: -2%;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
@@ -233,3 +234,53 @@ table tr:last-child td:last-child {
 .skill img {
   border-radius: 15px;
 }
+
+
+/* Results page */
+
+.video {
+  margin : 3%;
+}
+
+
+/* Links page */
+
+.playGame {
+  padding: 15px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  background-color: rgb(26, 165, 222);
+  border: 2px solid rgb(26, 165, 222);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin: 3%;
+}
+
+.playGame:hover {
+  background-color: #fff;
+  color: rgb(26, 165, 222);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
+}
+
+/* Active effect */
+.playGame:active {
+  background-color: rgb(26, 165, 222);
+  color: #fff;
+  transform: scale(0.98);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+.linkFooter .wp-block-group.alignfull.has-background-color {
+  position: absolute;
+  bottom: 1px;
+}
+
+
+
+

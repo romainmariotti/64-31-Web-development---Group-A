@@ -167,7 +167,7 @@ window.addEventListener("keyup", (e) => {
 document.addEventListener("mousedown", (event) => {
   console.log("Mouse down event detected");
 
-  if (event.button === 0 && activeJet.image.src.includes("A6MZero")) {
+  if (event.button === 0 && activeJet.image.src.includes("A6MZero") && gameState.paused === false) {
     console.log("Firing enabled for A6MZero");
     isShootingZero = true;
 
